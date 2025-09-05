@@ -1,8 +1,20 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue'
 import type { ChatConfig } from '@/types/chat'
-import { Bot, Circle } from 'lucide-vue-next';
+import { Bot, Circle } from 'lucide-vue-next'
+
 const props = defineProps<{ config: ChatConfig }>()
-const emit = defineEmits<{ back: []; end: [] }>()
+const emit = defineEmits<{
+  (e: 'back'): void
+  (e: 'end'): void
+}>()
+
+// 아바타 에러 → 아이콘으로 폴백
+const avatarError = ref(false)
+const showAvatar = computed(() => !!props.config.botAvatar && !avatarError.value)
+function onAvatarError(_e: Event) {
+  avatarError.value = true
+}
 </script>
 
 <template>
@@ -15,17 +27,29 @@ const emit = defineEmits<{ back: []; end: [] }>()
           aria-label="뒤로가기"
         >
           <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
 
-      <div class="relative w-24 h-24">                          
-       <Circle class="absolute inset-0 w-full h-full text-white" :stroke-width="1" />
-       <Bot class="absolute inset-0 m-auto text-white" :size="33" :stroke-width="2" />
-      </div>
+        <!-- ✅ 아바타 영역 (크기 그대로: w-24 h-24) -->
+        <div class="relative w-24 h-24">
+          <!-- 1) 프로필 사진이 있으면 이미지 표시 -->
+          <img
+            v-if="showAvatar"
+            :src="props.config.botAvatar"
+            alt="mentor"
+            class="absolute inset-0 w-full h-full rounded-full object-cover ring-2 ring-white/70"
+            @error="onAvatarError"
+          />
+          <!-- ⚠️ v-if 바로 다음 형제에 v-else (사이에 텍스트/주석 X) -->
+          <template v-else>
+            <Circle class="absolute inset-0 w-full h-full text-white" :stroke-width="1" />
+            <Bot class="absolute inset-0 m-auto text-white" :size="33" :stroke-width="2" />
+          </template>
+        </div>
 
-      <div class="leading-tight">
-        <h1 class="font-medium text-[18px]">{{ props.config.title }}</h1>
+        <div class="leading-tight">
+          <h1 class="font-medium text-[18px]">{{ props.config.title }}</h1>
           <p class="text-[16px] text-blue-100">
             <span class="inline-block w-[10px] h-[10px] bg-green-400 rounded-full mr-1 align-middle"></span>
             online
@@ -34,7 +58,9 @@ const emit = defineEmits<{ back: []; end: [] }>()
       </div>
 
       <button
-        @click="emit('end')" class="h-11 px-6 text-[12px] font-semibold bg-[#FFBD01] text-white rounded-xl shadow hover:brightness-95">
+        @click="emit('end')"
+        class="h-11 px-6 text-[12px] font-semibold bg-[#FFBD01] text-white rounded-xl shadow hover:brightness-95"
+      >
         {{ props.config.endButtonLabel ?? '상담 종료' }}
       </button>
     </div>

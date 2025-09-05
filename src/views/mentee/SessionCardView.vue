@@ -1,0 +1,103 @@
+<!-- SessionCard.vue -->
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import type { Session } from '@/types/mentoring'
+
+const props = withDefaults(defineProps<{
+  session: Session
+  expanded?: boolean
+  highlight?: boolean
+  showActions?: boolean
+}>(), { expanded: false, highlight: false, showActions: true })
+
+const emit = defineEmits<{ toggle: [id: string] }>()
+const router = useRouter()
+
+const dateLabel = computed(() => {
+  const d = new Date(props.session.datetime)
+  return `${d.getMonth() + 1}월 ${d.getDate()}일 ${d.getHours()}시`
+})
+
+// 예약: 일반 채팅방
+function goChat(e?: MouseEvent) {
+  e?.stopPropagation()
+  router.push({ name: 'mentee-chat', params: { sessionId: props.session.id } })
+}
+
+// 종료/취소: 읽기 전용 채팅방
+function openHistory(e?: MouseEvent) {
+  e?.stopPropagation()
+  router.push({
+    name: 'mentee-chat',
+    params: { sessionId: props.session.id },
+    query: { readonly: '1' },
+  })
+}
+
+// 상담카드 보기
+function openCard(e?: MouseEvent) {
+  e?.stopPropagation()
+  router.push({ name: 'session-card', params: { id: props.session.id } })
+}
+</script>
+
+<template>
+  <div class="space-y-3">
+    <!-- 카드 본문: 클릭하면 펼침 -->
+    <div
+      @click="emit('toggle', session.id)"
+      role="button"
+      tabindex="0"
+      @keydown.enter.prevent="emit('toggle', session.id)"
+      @keydown.space.prevent="emit('toggle', session.id)"
+      :class="[
+        'rounded-3xl border bg-white p-8 md:p-10 shadow-md min-h-[120px] cursor-pointer transition',
+        highlight ? 'border-blue-300 ring-1 ring-blue-200' : 'border-blue-200/80 hover:shadow'
+      ]"
+    >
+      <div class="flex items-center gap-9 pt-2 md:pt-4">
+        <img
+          :src="session.mentor.photoUrl ?? 'https://placehold.co/64x64?text='"
+          class="w-24 h-24 rounded-full object-cover ring-2 ring-blue-200"
+          alt="mentor"
+        />
+        <div class="flex-1">
+          <div class="flex items-center justify-between">
+            <p class="text-[19px] font-semibold">{{ session.mentor.name }}</p>
+            <span class="text-[15px] px-5 py-0.5 rounded-full bg-white text-yellow-700 border border-yellow-200">
+              {{ session.turnCurrent }} 회차 상담
+            </span>
+          </div>
+          <p class="text-[15px] text-gray-500 mt-1">상담 예약일: {{ dateLabel }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ 하단 액션바: 펼친 경우에만 노출 (예약/종료 공통) -->
+    <div v-if="showActions && expanded" class="px-8 md:px-10 mt-2">
+      <div class="flex gap-3">
+        <!-- 첫 버튼: 상태에 따라 액션/색/라벨 변경 -->
+        <button
+          @click.stop="session.status === 'scheduled' ? goChat($event) : openHistory($event)"
+          :class="[
+            'flex-1 h-16 rounded-full text-[15px] font-semibold shadow',
+            session.status === 'scheduled'
+              ? 'bg-[#FFBD01] text-white hover:brightness-95'
+              : 'bg-[#7BA7FD] text-white hover:brightness-95'
+          ]"
+        >
+          {{ session.status === 'scheduled' ? '상담 하러가기' : '이전 채팅 보기' }}
+        </button>
+
+        <!-- 두 번째 버튼: 상담카드 보기 -->
+        <button
+          @click.stop="openCard"
+          class="flex-1 h-16 rounded-full border border-gray-200 text-gray-700 text-[13px] bg-white hover:bg-gray-50"
+        >
+          상담카드 보기
+        </button>
+      </div>
+    </div>
+  </div>
+</template>

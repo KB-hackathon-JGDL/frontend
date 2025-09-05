@@ -31,7 +31,7 @@ const routes = [
     sessionId: route.params.sessionId,
     readonly: route.query.readonly === '1',
   })
-}
+},
 ];
 
 export default createRouter({

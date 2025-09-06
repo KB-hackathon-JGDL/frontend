@@ -99,7 +99,6 @@ watch(tab, () => { expandedId.value = null })
           <p v-if="!mentorUpcoming.length" class="text-center text-sm text-gray-500 py-10">예약된 상담이 없습니다.</p>
         </template>
         <template v-else>
-          <!-- ✅ 종료는 버튼 없이 클릭 즉시 readonly 채팅 -->
           <MentorEndedSessionCard v-for="s in mentorCompleted" :key="s.id" :session="s" />
           <p v-if="!mentorCompleted.length" class="text-center text-sm text-gray-500 py-10">종료된 상담이 없습니다.</p>
         </template>

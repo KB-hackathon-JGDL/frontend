@@ -1,15 +1,30 @@
 import { defineStore } from 'pinia'
-import { ref, computed, shallowRef } from 'vue'
-// 선택: socket.io 쓰는 경우
-// import { io, type Socket } from 'socket.io-client'
-import type { ChatMessage } from '@/types/chat' // sender: 'user' | 'bot'
+import { ref, computed } from 'vue'
+import type { ChatMessage } from '@/types/chat'
 
 type Role = 'mentee' | 'mentor'
 
+const PREFIX = 'chat:'
+const RETENTION_DAYS = 60
+
+function isExpired(tsISO: string, days = RETENTION_DAYS) {
+  const ageMs = Date.now() - new Date(tsISO).getTime()
+  return ageMs > days * 24 * 60 * 60 * 1000
+}
+
+function safeArray(a: any): ChatMessage[] {
+  if (!Array.isArray(a)) return []
+  return a.filter((m: any) =>
+    m &&
+    typeof m.id === 'string' &&
+    typeof m.content === 'string' &&
+    (m.sender === 'user' || m.sender === 'bot' || m.sender === 'system') &&
+    typeof m.timestamp === 'string'
+  )
+}
+
 export const useChatStore = defineStore('chat', () => {
-  // 세션ID별 메시지
   const bySession = ref<Record<string, ChatMessage[]>>({})
-  // const socket = shallowRef<Socket | null>(null)
 
   const ensure = (sid: string) => {
     if (!bySession.value[sid]) bySession.value[sid] = []
@@ -18,17 +33,25 @@ export const useChatStore = defineStore('chat', () => {
   const messages = (sid: string) =>
     computed(() => bySession.value[sid] ?? [])
 
-  // --- 목(로컬) 히스토리 불러오기 ---
   async function loadHistory(sid: string) {
     ensure(sid)
-    // 서버 붙이면: const data = await fetch(`/api/sessions/${sid}/messages`).then(r=>r.json())
-    const key = `chat:${sid}`
-    const raw = localStorage.getItem(key)
-    bySession.value[sid] = raw ? JSON.parse(raw) : []
+    const key = PREFIX + sid
+    try {
+      const raw = localStorage.getItem(key)
+      const parsed = raw ? JSON.parse(raw) : []
+      const trimmed = safeArray(parsed).filter(m => !isExpired(m.timestamp))
+      bySession.value[sid] = trimmed
+      if (trimmed.length !== parsed.length) {
+        localStorage.setItem(key, JSON.stringify(trimmed))
+      }
+    } catch {
+      bySession.value[sid] = []
+      localStorage.removeItem(key)
+    }
   }
 
   function persist(sid: string) {
-    localStorage.setItem(`chat:${sid}`, JSON.stringify(bySession.value[sid] ?? []))
+    localStorage.setItem(PREFIX + sid, JSON.stringify(bySession.value[sid] ?? []))
   }
 
   function pushLocal(sid: string, msg: ChatMessage) {
@@ -37,19 +60,50 @@ export const useChatStore = defineStore('chat', () => {
     persist(sid)
   }
 
-  // --- 전송(로컬 목) ---
   function sendLocal(sid: string, text: string, role: Role) {
-    const m: ChatMessage = {
-      id: crypto.randomUUID(),
+    const msg: ChatMessage = {
+      id: (crypto as any).randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2),
       content: text,
       sender: role === 'mentee' ? 'user' : 'bot',
-      timestamp: new Date()
+      timestamp: new Date().toISOString(),
     }
-    pushLocal(sid, m)
+    pushLocal(sid, msg)
+  }
+
+  function addSystem(sid: string, text: string) {
+    pushLocal(sid, {
+      id: (crypto as any).randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2),
+      content: text,
+      sender: 'system',
+      timestamp: new Date().toISOString(),
+    })
+  }
+
+  function cleanupAll(days = RETENTION_DAYS) {
+    const keys = Object.keys(localStorage).filter(k => k.startsWith(PREFIX))
+    for (const k of keys) {
+      const raw = localStorage.getItem(k)
+      if (!raw) continue
+      let parsed: any
+      try { parsed = JSON.parse(raw) } catch { localStorage.removeItem(k); continue }
+      const trimmed = safeArray(parsed).filter(m => !isExpired(m.timestamp, days))
+      if (trimmed.length !== parsed.length) {
+        localStorage.setItem(k, JSON.stringify(trimmed))
+      }
+    }
+  }
+  function startSync(sid: string) {
+    const key = PREFIX + sid
+    const onStorage = (e: StorageEvent) => {
+      if (e.key !== key) return
+      loadHistory(sid)
+    }
+    window.addEventListener('storage', onStorage)
+    return () => window.removeEventListener('storage', onStorage)
   }
 
   return {
-    messages, loadHistory, sendLocal, pushLocal,
-    // connect, send, disconnect
+    messages, loadHistory, sendLocal, pushLocal, addSystem, cleanupAll,
+    startSync,
   }
 })

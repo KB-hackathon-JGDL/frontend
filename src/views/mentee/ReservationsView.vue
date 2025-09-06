@@ -2,40 +2,31 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
-// 탭 UI
 import SegmentedTabs from '@/components/mentee/SegmentedTabs.vue'
 
-// 멘티용 카드 (기존)
 import SessionCard from '@/components/mentee/SessionCard.vue'
 import EndedSessionCard from '@/components/chat/EndedSessionCard.vue'
 import { useSessionStore } from '@/stores/session'
 
-// ✅ 멘토용 카드 (새로 만든 파일)
 import MentorSessionCard from '@/components/memtor/MentorSessionCard.vue'
 import MentorEndedSessionCard from '@/components/memtor/MentorEndedSessionCard.vue'
 
-// ✅ 멘토 목데이터
-import mentorSessions from '@/mocks/mentorSessions'       // ← 이건 OK (파일만 존재하면)
+import mentorSessions from '@/mocks/mentorSessions'
 
-// ----- 모드 전환: /reservations?role=mentor -----
 const route = useRoute()
 const isMentor = computed(() => String(route.query.role ?? '') === 'mentor')
 
-// ----- 탭 -----
 const tab = ref<'upcoming' | 'completed'>('upcoming')
 watch(isMentor, () => { tab.value = 'upcoming' })
 
-// ----- 멘티 데이터 (기존 store) -----
 const store = useSessionStore()
 onMounted(() => { if (!store.sessions.length) store.loadMock?.() })
 const menteeUpcoming  = computed(() => store.upcoming)
 const menteeCompleted = computed(() => store.completed)
 
-// ----- 멘토 데이터 (목) -----
 type MentorSession = typeof mentorSessions[number]
 const mentorAll       = ref<MentorSession[]>(mentorSessions as any)
 
-// 혹시 비어있으면 디폴트 1~2개라도 넣어서 화면 확인되게
 if (!mentorAll.value?.length) {
   mentorAll.value = [
     {
@@ -58,7 +49,6 @@ if (!mentorAll.value?.length) {
 const mentorUpcoming  = computed(() => mentorAll.value.filter(s => String(s.status).toLowerCase() === 'scheduled'))
 const mentorCompleted = computed(() => mentorAll.value.filter(s => String(s.status).toLowerCase() !== 'scheduled'))
 
-// ----- 펼침 상태 (버튼 2개 노출 제어) -----
 const expandedId = ref<string | null>(null)
 watch(tab, () => { expandedId.value = null })
 </script>
@@ -78,7 +68,6 @@ watch(tab, () => { expandedId.value = null })
     </div>
 
     <main class="px-4 py-3 space-y-3 max-w-screen-sm mx-auto w-full">
-      <!-- 멘티 모드 -->
       <template v-if="!isMentor">
         <template v-if="tab === 'upcoming'">
           <SessionCard
@@ -97,10 +86,8 @@ watch(tab, () => { expandedId.value = null })
         </template>
       </template>
 
-      <!-- 멘토 모드 -->
       <template v-else>
         <template v-if="tab === 'upcoming'">
-          <!-- ✅ 카드 클릭 시 @toggle 로 펼침 → 하단 버튼 2개 뜸 -->
           <MentorSessionCard
             v-for="s in mentorUpcoming" :key="s.id"
             :session="s"

@@ -1,47 +1,82 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { ChatMessage } from '@/types/chat'
-import BotAvatar from '@/components/chat/BotAvatar.vue'
 
-const props = defineProps<{ message: ChatMessage }>()
-const formatTime = (date: Date) => {
-  const d = new Date(date); let h = d.getHours()
-  const m = String(d.getMinutes()).padStart(2,'0')
-  const suf = h>=12 ? 'PM' : 'AM'; h = h%12; if(h===0) h=12
-  return `${h}:${m} ${suf}`
+const props = withDefaults(defineProps<{
+  message: ChatMessage
+  avatarUrl?: string
+  role: 'mentee' | 'mentor'
+  peerName?: string
+  showTime?: boolean
+}>(), {
+  showTime: true
+})
+
+const isSystem = computed(() => props.message.sender === 'system')
+const isSelf = computed(() => {
+  if (isSystem.value) return false
+  // 규칙: mentee → 'user', mentor → 'bot'
+  return props.role === 'mentee'
+    ? props.message.sender === 'user'
+    : props.message.sender === 'bot'
+})
+
+// 시간을 “AM/PM h:mm” 로 표시
+const timeText = computed(() => {
+  const d = new Date(props.message.timestamp)
+  const hh = d.getHours() % 12 || 12
+  const mm = String(d.getMinutes()).padStart(2, '0')
+  const ap = d.getHours() >= 12 ? 'PM' : 'AM'
+  return `${ap} ${hh}:${mm}`
+})
+
+// URL 자동 링크
+function autoLink(text: string) {
+  return text.replace(
+    /(https?:\/\/[^\s]+)/g,
+    '<a href="$1" target="_blank" rel="noopener" class="underline text-[#2563eb] break-all">$1</a>',
+  )
 }
+const html = computed(() => autoLink(props.message.content || ''))
 </script>
 
 <template>
-  <div class="mb-4">
-    <div v-if="props.message.sender === 'bot'" class="flex items-center gap-8">
-      <BotAvatar :size="50" color="#7BA7FD" variant="badge" :ring-width="2" />
+  <div v-if="isSystem" class="my-4 text-center">
+    <span class="inline-block text-[12px] text-gray-600 bg-gray-100 border border-gray-200 rounded-full px-3 py-1">
+      {{ props.message.content }}
+    </span>
+  </div>
 
-      <div class="flex items-end gap-3 max-w-[86%]">
-        <div class="bg-[#EEF2FF] rounded-2xl rounded-tl-md px-4 py-3 shadow-sm">
-          <p class="text-[15px] leading-[1.6] text-[#1f2937] whitespace-pre-line">
-            {{ props.message.content }}
-          </p>
-          <div v-if="props.message.links?.length" class="mt-2 space-y-0.5">
-            <a v-for="l in props.message.links" :key="l" :href="l" target="_blank"
-               class="block text-[13px] underline text-[#1d4ed8] break-all">
-              {{ l }}
-            </a>
-          </div>
-        </div>
-        <span class="text-[11px] text-gray-500 whitespace-nowrap shrink-0 pb-1">
-          {{ formatTime(props.message.timestamp) }}
-        </span>
+
+  <div v-else-if="isSelf" class="flex items-end justify-end gap-2 mb-6">
+    <div v-if="showTime" class="text-[13px] text-gray-400 pb-0.5">{{ timeText }}</div>
+    <div class="max-w-[88%]">
+      <div
+        class="inline-block px-6 py-5 rounded-2xl shadow-sm"
+        style="background:#7BA7FD; color:#fff;"
+        >
+        <p class="text-[17px] leading-[1.7] whitespace-pre-line break-words" v-html="html"/>
       </div>
     </div>
+  </div>
 
-    <div v-else class="flex justify-end">
-      <div class="flex items-end gap-2 max-w-[86%]">
-        <span class="text-[11px] text-gray-500 whitespace-nowrap shrink-0 pb-1">
-        {{ formatTime(props.message.timestamp) }}
-      </span>
-        <div class="bg-[#7BA7FD] text-white rounded-3xl rounded-tr-md px-4 py-3 shadow">
-          <p class="text-[15px] leading-[1.6] whitespace-pre-line">{{ props.message.content }}</p>
+  <div v-else class="flex items-start gap-3 mb-6">
+    <img
+      :src="props.avatarUrl || 'https://placehold.co/44x44?text=%20'"
+      class="w-11 h-11 rounded-full object-cover ring-2 ring-blue-100"
+      alt="peer"
+    />
+
+    <div class="max-w-[88%]">
+      <div class="text-[13px] text-gray-600 mb-1">{{ props.peerName }}</div>
+      <div class="flex items-end gap-2">
+        <div
+          class="inline-block px-6 py-5 rounded-2xl border shadow-sm"
+          style="background:#ffffff; color:#1f2937; border-color:#E5E7EB;"
+        >
+          <p class="text-[17px] leading-[1.7] whitespace-pre-line break-words" v-html="html"/>
         </div>
+        <div v-if="showTime" class="text-[13px] text-gray-400 pb-0.5">{{ timeText }}</div>
       </div>
     </div>
   </div>

@@ -32,6 +32,14 @@ const routes = [
     readonly: route.query.readonly === '1',
   })
 },
+{ path: '/mentee/chat/:sessionId', name: 'mentee-chat',
+  component: () => import('@/views/mentee/ChatRoomView.vue'),
+  props: r => ({ sessionId: String(r.params.sessionId), role: 'mentee' })
+},
+{ path: '/mentor/chat/:sessionId', name: 'mentor-chat',
+  component: () => import('@/views/mentee/ChatRoomView.vue'),
+  props: r => ({ sessionId: String(r.params.sessionId), role: 'mentor' })
+}
 ];
 
 export default createRouter({

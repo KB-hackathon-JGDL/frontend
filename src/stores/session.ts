@@ -32,12 +32,24 @@ export const useSessionStore = defineStore('session', () => {
     sessions.value = mockSessions as unknown as Session[]
   }
 
-  // ✅ 추가: id로 세션 하나 찾기
-  function getById(id: string): Session | undefined {
+  function getById(id: string) {
     return sessions.value.find(s => s.id === id)
   }
 
-  // ⬇️ getById를 export에 포함시키는 것 잊지 않기!
+  function completeSession(id: string) {
+    const s = getById(id)
+    if (s && s.status !== 'completed') s.status = 'completed'
+  }
+
+  function cleanupSessions(retentionDays = 60) {
+    const cutoff = Date.now() - retentionDays * 24 * 60 * 60 * 1000
+    sessions.value = sessions.value.filter(s => {
+      if (s.status === 'scheduled') return true
+      const end = new Date(s.datetime).getTime() + 60 * 60000
+      return end >= cutoff
+    })
+  }
+
   return {
     sessions,
     upcoming,
@@ -45,6 +57,8 @@ export const useSessionStore = defineStore('session', () => {
     isLoading,
     fetchMySessions,
     loadMock,
-    getById,              // ✅
+    getById,
+    completeSession,
+    cleanupSessions,
   }
 })

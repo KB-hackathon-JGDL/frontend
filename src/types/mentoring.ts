@@ -4,7 +4,11 @@ export interface Mentor {
   id: string
   name: string
   photoUrl?: string
-  title?: string
+  company?: string
+  role?: string 
+  certifications?: string[]
+  tags?: string[]
+  tagline?: string 
 }
 
 export interface Session {

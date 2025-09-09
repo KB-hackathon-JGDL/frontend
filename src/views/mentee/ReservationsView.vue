@@ -6,7 +6,7 @@ import SegmentedTabs from '@/components/mentee/SegmentedTabs.vue'
 
 import SessionCard from '@/components/mentee/SessionCard.vue'
 import EndedSessionCard from '@/components/chat/EndedSessionCard.vue'
-import { useSessionStore } from '@/stores/session'
+import { useSessionStore } from '@/stores/useSession'
 
 import MentorSessionCard from '@/components/memtor/MentorSessionCard.vue'
 import MentorEndedSessionCard from '@/components/memtor/MentorEndedSessionCard.vue'

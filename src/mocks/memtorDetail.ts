@@ -1,0 +1,32 @@
+const MOCK: Record<string, any> = {
+  'M-01': {
+    id: 'M-01',
+    name: '김병로 상담사',
+    photoUrl: 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=800&auto=format&fit=crop',
+    tags: '# 금융 # 투자',
+    field: '금융 / 투자',
+    career: '현) KB투자증권 5년 근무\n전) 하나은행 PB센터 3년 근무',
+    cert: '투자자산운용사, 신용분석사',
+    headline: '“저는 청년 한 분 한 분의 상황을 꼼꼼히 살펴 \n가장 알맞은 투자 솔루션을 \n찾아드리는 상담사입니다. \n복잡하고 어려운 절차 속에서도 \n따뜻하게 함께 걸어가며 \n든든한 동반자가 되어드리겠습니다.”',
+  },
+  'M-02': {
+    id: 'M-02',
+    name: '박지원 상담사',
+    photoUrl: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop',
+    tags: '# IT # 커리어',
+    field: 'IT / 커리어 멘토링',
+    career: '현) 카카오 개발팀 근무 4년\n전) 스타트업 CTO',
+    cert: '정보처리기사, 구글 클라우드 인증',
+    headline: '“커리어 로드맵 설계와 포트폴리오 피드백을 도와드립니다.”',
+  },
+  'M-03': {
+    id: 'M-03',
+    name: '장블루 상담사',
+    photoUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop',
+    tags: '# 면접 # 자기소개서',
+    field: '취업 / 면접 코칭',
+    career: '현) 잡코리아 외부 컨설턴트\n전) 삼성 HR 6년 근무',
+    cert: 'HRD 전문가 자격, MBTI 강사 과정',
+    headline: '“취업 준비생들에게 현실적인 면접 팁과 자기소개서 첨삭을 제공합니다.”',
+  },
+}

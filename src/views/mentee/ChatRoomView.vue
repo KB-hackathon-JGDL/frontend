@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useSessionStore } from '@/stores/session'
-import { useChatStore } from '@/stores/chat'
+import { useSessionStore } from '@/stores/useSession'
+import { useChatStore } from '@/stores/useChat'
 import ChatHeader from '@/components/chat/ChatHeader.vue'
 import MessageItem from '@/components/chat/MessageItem.vue'
 import MessageInput from '@/components/chat/MessageInput.vue'

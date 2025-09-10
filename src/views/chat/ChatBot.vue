@@ -1,4 +1,3 @@
-<!-- src/views/chat/ChatBotView.vue -->
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import ChatContainer from '@/components/chat/ChatContainer.vue'
@@ -9,7 +8,7 @@ const router = useRouter()
 const chatConfig: ChatConfig = {
   title: 'ChatBot',
   placeholder: '메세지를 입력하세요',
-  apiEndpoint: '/api/chat',
+  apiEndpoint: '/api/chatbot',
   theme: 'blue',
   botName: 'ChatBot',
 }

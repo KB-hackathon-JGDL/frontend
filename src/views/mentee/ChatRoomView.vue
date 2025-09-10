@@ -35,7 +35,6 @@ onMounted(() => {
 })
 onBeforeUnmount(() => stopSync?.())
 
-// ✅ role 해석: props > query > route.name > 기본 mentee
 const currentRole = computed<'mentee' | 'mentor'>(() => {
   if (props.role) return props.role
   const q = String(route.query.role || '')
@@ -47,7 +46,6 @@ const currentRole = computed<'mentee' | 'mentor'>(() => {
 
 const session = computed(() => sessionStore.getById?.(sid) ?? null)
 
-// 상대 표시
 const peerName = computed(() =>
   currentRole.value === 'mentor'
     ? (session.value?.mentee?.name ?? '멘티')
@@ -82,7 +80,6 @@ function onSend(text: string) {
   chatStore.sendLocal(sid, text, currentRole.value)
 }
 
-// ====== 여기부터 모달 로직 추가 ======
 const showEndModal = ref(false)
 
 function openEndConfirm() {            // 헤더 @end가 호출
@@ -96,16 +93,13 @@ function confirmEnd() {                // 모달: 종료하기
   const s = session.value
   if (!s || s.status === 'completed') return
 
-  // 세션 완료 처리 + 시스템 메시지
   sessionStore.completeSession?.(s.id)
   chatStore.addSystem?.(sid, '상담이 종료되었습니다. 채팅방은 읽기 전용으로 전환됩니다.')
 
   showEndModal.value = false
 
-  // 리뷰 페이지로 이동
   router.push({ name: 'ReviewKeywordsView', params: { mentorId: s.mentor?.id ?? 'M-01' } })
 }
-// =====================================
 
 function formatDateLabel(ts: string) {
   const d = new Date(ts)
@@ -139,7 +133,6 @@ const items = computed<MixedItem[]>(() => {
 
 <template>
   <div v-if="session" class="mx-auto bg-white ring-1 ring-gray-200 shadow flex flex-col !w-[430px] !h-[932px]">
-    <!-- [변경] 헤더 end 이벤트는 모달 오픈 -->
     <ChatHeader :config="config" @back="router.back()" @end="openEndConfirm" />
 
     <div class="flex-1 overflow-y-auto px-4 pt-6 pb-3">
@@ -169,7 +162,6 @@ const items = computed<MixedItem[]>(() => {
 
     <MessageInput :placeholder="config.placeholder" :disabled="readonly" @send="onSend" />
 
-    <!-- [추가] 종료 확인 모달 -->
     <EndChatConfirmModal :open="showEndModal" @close="closeEndConfirm" @confirm="confirmEnd" />
   </div>
 

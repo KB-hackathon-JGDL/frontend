@@ -10,7 +10,7 @@ defineEmits<{ back: [] }>()
 
 const messages = ref<ChatMessage[]>([])
 const isTyping = ref(false)
-const isEnded  = ref(false)  
+const isEnded  = ref(false)
 const messagesContainer = ref<HTMLElement | null>(null)
 
 const pushBot = async (content: string, links?: string[]) => {
@@ -55,10 +55,19 @@ const askApi = async (prompt: string) => {
     })
     if (!res.ok) throw new Error(String(res.status))
     const data = await res.json()
-    return {
-      text: data.response ?? data.text ?? '답변을 생성했어요.',
-      links: data.links ?? undefined,
-    }
+
+    // 응답 키 방어적으로 읽기
+    const text =
+      data?.reply ??
+      data?.answer ??
+      data?.content ??
+      data?.text ??
+      data?.response ??
+      data?.result ??
+      data?.message ??
+      '죄송해요, 응답을 불러올 수 없어요.'
+
+    return { text, links: data?.links ?? undefined }
   } catch (e) {
     console.error('chat api error:', e)
     return {
@@ -69,7 +78,7 @@ const askApi = async (prompt: string) => {
 }
 
 const handleSendMessage = async (message: string) => {
-  if (isEnded.value) return   
+  if (isEnded.value) return
   if (!message.trim() || isTyping.value) return
   await pushUser(message)
 
@@ -90,28 +99,27 @@ const dateLabel = computed(() => {
   return `${month}월 ${day}일 ${weekday}`
 })
 
-// 페이지 들어가면 바로 나오는 문구
 onMounted(async () => {
-  await pushBot(`안녕하세요! 무엇을 도와드릴까요?`)
+  await pushBot('안녕하세요! 무엇을 도와드릴까요?')
 })
 
-const handleEnd = () => { 
+const handleEnd = () => {
   isEnded.value = true
 }
 </script>
 
 <template>
-  <div
- class="mx-auto bg-white flex flex-col !w-[430px] !h-[932px]">
-    <ChatHeader :config="props.config" @back="$emit('back')" @end="handleEnd"/>
-    <div class="flex justify-center pt-5 pb-5">      
+  <div class="mx-auto bg-white flex flex-col !w-[430px] !h-[932px]">
+    <ChatHeader :config="props.config" @back="$emit('back')" @end="handleEnd" />
+
+    <div class="flex justify-center pt-5 pb-5">
       <span class="text-[12px] text-gray-600 px-3 py-1.5 rounded-full">
         {{ dateLabel }}
       </span>
     </div>
 
-      <div ref="messagesContainer" class="flex-1 overflow-y-auto px-4 pb-3">      
-        <MessageItem
+    <div ref="messagesContainer" class="flex-1 overflow-y-auto px-4 pb-3">
+      <MessageItem
         v-for="m in messages"
         :key="m.id"
         :message="m"
@@ -121,7 +129,7 @@ const handleEnd = () => {
         <div class="w-7 h-7 rounded-full flex items-center justify-center">
           <svg class="w-[14px] h-[14px] text-[#4A79F6]" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 2v2M7 8h10a2 2 0 012 2v4a4 4 0 01-4 4H9a4 4 0 01-4-4v-4a2 2 0 012-2z"/>
+                  d="M12 2v2M7 8h10a2 2 0 012 2v4a4 4 0 01-4 4H9a4 4 0 01-4-4v-4a2 2 0 012-2z"/>
           </svg>
         </div>
         <div class="bg-gray-100 rounded-2xl rounded-tl-md px-3 py-2">
@@ -134,7 +142,7 @@ const handleEnd = () => {
       </div>
     </div>
 
-        <div v-if="isEnded" class="px-4 pb-2">
+    <div v-if="isEnded" class="px-4 pb-2">
       <div class="w-full text-center text-[13px] text-gray-700 bg-gray-100 rounded-full py-2">
         상담이 종료되었습니다
       </div>
@@ -143,7 +151,7 @@ const handleEnd = () => {
     <MessageInput
       :placeholder="props.config.placeholder"
       :is-loading="isTyping"
-      :disabled="isEnded" 
+      :disabled="isEnded"
       @send="handleSendMessage"
     />
   </div>

@@ -4,6 +4,7 @@ import ChatBot from '@/views/chat/ChatBot.vue'
 import MentorDetailPage from '@/views/mentor/MentorDetailPage.vue'
 import ReservePage from '@/views/mentor/ReservePage.vue'
 import ConsultationCard from '@/views/mentor/ConsultationCard.vue'
+import ReviewKeywordsView from '@/views/mentee/ReviewKeywordsView.vue' // [추가]
 
 const routes = [
   { path: '/', redirect: '/home' },
@@ -49,6 +50,7 @@ const routes = [
     name: 'ConsultationCard',
     component: ConsultationCard,
   },
+  { path: '/review/:mentorId', name: 'ReviewKeywordsView', component: ReviewKeywordsView }, // [추가]
 
 ]
 

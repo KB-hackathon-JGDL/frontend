@@ -76,7 +76,7 @@ const html = computed(() => autoLink(props.message.content || ''))
     <template v-else>
       <div
         class="w-20 h-20 rounded-full bg-[#EAF1FF] ring-2 ring-[#CFE0FF]
-               flex items-center justify-center"
+               flex items-center justify-center flex-shrink-0"
       >
         <Bot :size="40" :stroke-width="2" class="text-[#4A79F6]" />
       </div>

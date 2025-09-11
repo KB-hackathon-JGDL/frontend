@@ -1,37 +1,19 @@
+// src/mocks/reservationsMock.ts
 import type { MentoringReservationDTO } from '@/types/mentoring'
 
 const reservationsMock: MentoringReservationDTO[] = [
   {
     mentoringReservationId: 'R-001',
     mentorUserId: 'M-01',
-    name: '김범로',
+    name: '박은빈 (19세)',
     photoUrl:
-      'https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=800&auto=format&fit=crop', // ✅ 예쁜 프로필 이미지
     mentoringDate: '2025-09-20',
-    mentoringTime: 14,
+    mentoringTime: 11,
     chatStatus: 'PENDING',
-    consultationCard: '은행업무와 대출 관련 상담을 받고 싶어요.',
-  },
-  {
-    mentoringReservationId: 'R-002',
-    mentorUserId: 'M-02',
-    name: '박지원',
-    photoUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=800&auto=format&fit=crop',
-    mentoringDate: '2025-09-22',
-    mentoringTime: 16,
-    chatStatus: 'ACTIVE',
-    consultationCard: '이직 준비 중입니다. 포트폴리오 피드백 요청.',
-  },
-  {
-    mentoringReservationId: 'R-003',
-    mentorUserId: 'M-03',
-    name: '장블루',
-    photoUrl: 'https://i.pravatar.cc/120?img=13',
-    mentoringDate: '2025-09-05',
-    mentoringTime: 20,
-    chatStatus: 'COMPLETED',
-    consultationCard: '면접 대비 상담 완료.',
+    consultationCard:
+      '최근 저희의 용기만큼 자금 관리가 원활하지 않아 많은 어려움을 겪고 있습니다. 안정적인 생활을 이어가기 위해 대출과 자산 운영에 대한 도움이 절실합니다. 제 상황을 이해해주시고 실질적으로 도움이 될 방향을 찾아주시면 큰 힘이 될 것 같습니다.',
+    turnCurrent: 3,
   },
 ]
 

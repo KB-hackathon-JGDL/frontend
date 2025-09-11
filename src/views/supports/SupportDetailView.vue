@@ -5,7 +5,6 @@ import { useSupportStore } from '@/stores/useSupport';
 import { ChevronLeft } from 'lucide-vue-next';
 import { Ticket, MapPin, Calendar, User } from 'lucide-vue-next';
 import DetailYouthPng from '@/assets/images/supports/detail_youth.png';
-import BottomNav from '@/components/common/BottomNav.vue'
 
 const route = useRoute();
 const router = useRouter();
@@ -147,5 +146,4 @@ const openApplyUrl = () => {
       </div>
     </main>
   </div>
-<BottomNav />
 </template>

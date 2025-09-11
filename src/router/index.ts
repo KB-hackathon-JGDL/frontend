@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from '@/views/home/HomePage.vue'
+import HomePage from '@/views/home/HomeView.vue'
 import ChatBot from '@/views/chat/ChatBot.vue'
 import MentorDetailPage from '@/views/mentor/MentorDetailPage.vue'
 import ReservePage from '@/views/mentor/ReservePage.vue'
@@ -50,7 +50,16 @@ const routes = [
     name: 'ConsultationCard',
     component: ConsultationCard,
   },
-  { path: '/review/:mentorId', name: 'ReviewKeywordsView', component: ReviewKeywordsView }, // [추가]
+  { path: '/review/:mentorId', name: 'ReviewKeywordsView', component: ReviewKeywordsView },
+  
+  { path: '/supports', name: 'supports-list', component: () => import('@/views/supports/SupportListView.vue') },
+
+  { path: '/finance/recommend', name: 'finance-survey-intro', component: () => import('@/views/finance/FinanceSurveyIntroView.vue') },
+    {
+    path: '/supports/:id',
+    name: 'support-detail',
+    component: () => import('@/views/supports/SupportDetailView.vue'),
+  },
 
 ]
 

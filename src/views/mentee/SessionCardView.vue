@@ -1,95 +1,108 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { onMounted, ref, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useSessionStore } from '@/stores/useSession'
 import type { Session } from '@/types/mentoring'
 
-const props = withDefaults(defineProps<{
-  session: Session
-  expanded?: boolean
-  highlight?: boolean
-  showActions?: boolean
-}>(), { expanded: false, highlight: false, showActions: true })
-
-const emit = defineEmits<{ toggle: [id: string] }>()
+const route = useRoute()
 const router = useRouter()
+const store = useSessionStore()
 
-const dateLabel = computed(() => {
-  const d = new Date(props.session.datetime)
-  return `${d.getMonth() + 1}월 ${d.getDate()}일 ${d.getHours()}시`
+const idParam = computed(() => String(route.params.id ?? ''))
+const isInvalidParam = computed(() => !idParam.value || idParam.value.startsWith(':'))
+const isMockId = computed(() => idParam.value.startsWith('session-'))
+
+const isLoading = ref(true)
+const loadError = ref<string | null>(null)
+
+const session = computed<Session | undefined>(() => {
+  const s = store.getById(idParam.value)
+  return s as Session | undefined
 })
 
-function goChat(e?: MouseEvent) {
-  e?.stopPropagation()
-  router.push({ name: 'mentee-chat', params: { sessionId: props.session.id } })
-}
+const dateLabel = computed(() => {
+  if (!session.value) return ''
+  const d = new Date(session.value.datetime)
+  const mm = d.getMonth() + 1
+  const dd = d.getDate()
+  const hh = d.getHours().toString().padStart(2, '0')
+  return `${mm}월 ${dd}일 ${hh}시`
+})
 
-function openHistory(e?: MouseEvent) {
-  e?.stopPropagation()
-  router.push({
-    name: 'mentee-chat',
-    params: { sessionId: props.session.id },
-    query: { readonly: '1' },
-  })
-}
+function goBack() { router.back() }
 
-function openCard(e?: MouseEvent) {
-  e?.stopPropagation()
-  router.push({ name: 'session-card', params: { id: props.session.id } })
-}
+onMounted(async () => {
+  try {
+    if (isInvalidParam.value) {
+      loadError.value = '잘못된 예약 ID입니다.'
+      return
+    }
+    if (isMockId.value) {
+      if (!session.value) loadError.value = '예약을 찾을 수 없습니다.'
+      return
+    }
+    if (!session.value) {
+      await store.fetchReservation(idParam.value)
+    }
+  } catch (e: any) {
+    loadError.value = e?.message || '예약 정보를 불러오지 못했습니다.'
+  } finally {
+    isLoading.value = false
+  }
+})
 </script>
 
 <template>
-  <div class="space-y-3">
-    <div
-      @click="emit('toggle', session.id)"
-      role="button"
-      tabindex="0"
-      @keydown.enter.prevent="emit('toggle', session.id)"
-      @keydown.space.prevent="emit('toggle', session.id)"
-      :class="[
-        'rounded-3xl border bg-white p-8 md:p-10 shadow-md min-h-[120px] cursor-pointer transition',
-        highlight ? 'border-blue-300 ring-1 ring-blue-200' : 'border-blue-200/80 hover:shadow'
-      ]"
-    >
-      <div class="flex items-center gap-9 pt-2 md:pt-4">
-        <img
-          :src="session.mentor.photoUrl ?? 'https://placehold.co/64x64?text='"
-          class="w-24 h-24 rounded-full object-cover ring-2 ring-blue-200"
-          alt="mentor"
-        />
-        <div class="flex-1">
-          <div class="flex items-center justify-between">
-            <p class="text-[19px] font-semibold">{{ session.mentor.name }}</p>
-            <span class="text-[15px] px-5 py-0.5 rounded-full bg-white text-yellow-700 border border-yellow-200">
-              {{ session.turnCurrent }} 회차 상담
-            </span>
-          </div>
-          <p class="text-[15px] text-gray-500 mt-1">상담 예약일: {{ dateLabel }}</p>
+  <div class="min-h-dvh grid place-items-center bg-[#EAF0FF] p-4">
+    <div class="w-[430px] min-h-[720px] bg-white rounded-2xl shadow-xl overflow-hidden">
+      <header class="h-[72px] px-5 flex items-center justify-between bg-[#4A79F6] text-white">
+        <button class="w-10 h-10 rounded-full bg-white/20 grid place-items-center" @click="goBack">←</button>
+        <p class="text-[18px] font-semibold">상담카드</p>
+        <span class="w-10" />
+      </header>
+
+      <main class="p-5">
+        <div v-if="isLoading" class="space-y-3">
+          <div class="h-6 w-40 bg-gray-100 rounded animate-pulse" />
+          <div class="h-4 w-60 bg-gray-100 rounded animate-pulse" />
+          <div class="h-32 w-full bg-gray-100 rounded animate-pulse" />
         </div>
-      </div>
-    </div>
 
-    <div v-if="showActions && expanded" class="px-8 md:px-10 mt-2">
-      <div class="flex gap-3">
-        <button
-          @click.stop="session.status === 'scheduled' ? goChat($event) : openHistory($event)"
-          :class="[
-            'flex-1 h-16 rounded-full text-[15px] font-semibold shadow',
-            session.status === 'scheduled'
-              ? 'bg-[#FFBD01] text-white hover:brightness-95'
-              : 'bg-[#7BA7FD] text-white hover:brightness-95'
-          ]"
-        >
-          {{ session.status === 'scheduled' ? '상담 하러가기' : '이전 채팅 보기' }}
-        </button>
+        <div v-else-if="loadError" class="text-red-600 text-sm">
+          {{ loadError }}
+        </div>
 
-        <button
-          @click.stop="openCard"
-          class="flex-1 h-16 rounded-full border border-gray-200 text-gray-700 text-[13px] bg-white hover:bg-gray-50"
-        >
-          상담카드 보기
-        </button>
-      </div>
+        <div v-else-if="session" class="space-y-6">
+          <section class="flex items-center gap-4">
+            <img
+              :src="session.mentor?.photoUrl ?? 'https://placehold.co/64x64?text=M'"
+              class="w-16 h-16 rounded-full object-cover ring-2 ring-blue-200"
+              alt="mentor"
+            />
+            <div>
+              <p class="text-[18px] font-semibold text-gray-900">{{ session.mentor?.name ?? '상담사' }}</p>
+              <p class="text-[13px] text-gray-500">상담 예약일: {{ dateLabel }}</p>
+            </div>
+          </section>
+
+          <section class="border-t border-gray-200 pt-4">
+            <p class="text-[14px] text-gray-600 mb-2">상담카드 내용</p>
+            <div
+              v-if="session.card?.context"
+              class="rounded-xl border border-gray-200 p-4 text-[14px] text-gray-800 whitespace-pre-wrap leading-6"
+            >
+              {{ session.card.context }}
+            </div>
+            <div v-else class="rounded-xl border border-dashed border-gray-200 p-4 text-[14px] text-gray-400">
+              등록된 상담카드가 없습니다.
+            </div>
+          </section>
+        </div>
+
+        <div v-else class="text-sm text-gray-500">
+          예약을 찾을 수 없습니다.
+        </div>
+      </main>
     </div>
   </div>
 </template>

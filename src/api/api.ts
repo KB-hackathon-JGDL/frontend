@@ -1,70 +1,63 @@
-import type { MentoringReservationDTO } from '@/types/mentoring';
+import type { MentoringReservationDTO } from '@/types/mentoring'
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api'
 
-// JWT 토큰 관리 (추후 실제 토큰 로직으로 교체)
-const getAuthToken = (): string => {
-  // TODO: 실제 JWT 토큰 로직으로 교체
-  return '';
-};
+const getAuthToken = () => localStorage.getItem('accessToken') || null
+const parseJsonSafe = (t: string) => { try { return JSON.parse(t) } catch { return null } }
 
-// HTTP 요청 헬퍼
-const apiRequest = async <T>(
-  endpoint: string,
-  options: RequestInit = {}
-): Promise<T> => {
-  const token = getAuthToken();
-
-  const config: RequestInit = {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token && { Authorization: `Bearer ${token}` }),
-      ...options.headers,
-    },
-    ...options,
-  };
-
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-
-  if (!response.ok) {
-    throw new Error(`API Error: ${response.status} ${response.statusText}`);
+async function apiRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+  const token = getAuthToken()
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...(options.headers as Record<string, string> | undefined),
   }
+  if (token) headers.Authorization = `Bearer ${token}`
 
-  // 응답이 비어있을 수 있는 경우 처리
-  const text = await response.text();
-  return text ? JSON.parse(text) : null;
-};
+  const res = await fetch(`${API_BASE_URL}${endpoint}`, { ...options, headers })
+  const text = await res.text().catch(() => '')
 
-// 멘토링 예약 관련 API
+  if (!res.ok) {
+    const body = text ? parseJsonSafe(text) ?? text : ''
+    console.error(`[API] ${res.status} ${res.statusText} @ ${endpoint}`, body)
+    throw new Error(`API Error: ${res.status} ${res.statusText}`)
+  }
+  return (text ? (parseJsonSafe(text) as T) : (null as unknown as T))
+}
+
+export type CreateScheduleInput = { mentoringTime: number; mentoringDate: string }[]
+export type RequestReservationInput = { consultationCard: string; menteeUserId?: string }
+
 export const mentoringApi = {
-  // 예약 목록 조회
-  getReservations: (): Promise<MentoringReservationDTO[]> => {
-    return apiRequest<MentoringReservationDTO[]>('/mentoring-reservations');
+  // 멘토별 예약 목록 조회 (백엔드가 제공하는 확정 경로)
+  getReservationsByMentor(mentorId: string) {
+    if (!mentorId) return Promise.reject(new Error('mentorId is required'))
+    return apiRequest<MentoringReservationDTO[]>(
+      `/mentors/${encodeURIComponent(mentorId)}/mentoring-reservations`
+    )
   },
 
-  // 특정 예약 조회
-  getReservation: (id: string): Promise<MentoringReservationDTO> => {
-    return apiRequest<MentoringReservationDTO>(`/mentoring-reservations/${id}`);
+  // 단건 예약
+  getReservation(id: string) {
+    if (!id || id.startsWith(':')) return Promise.reject(new Error('Invalid reservation id'))
+    return apiRequest<MentoringReservationDTO>(
+      `/mentoring-reservations/${encodeURIComponent(id)}`
+    )
   },
 
-  // 예약 생성 (멘토가 스케줄 생성)
-  createSchedule: (
-    schedules: { mentoringTime: number; mentoringDate: string }[]
-  ): Promise<void> => {
+  // 스케줄 생성(멘토)
+  createSchedule(schedules: CreateScheduleInput) {
     return apiRequest<void>('/mentoring-reservations', {
       method: 'POST',
       body: JSON.stringify(schedules),
-    });
+    })
   },
 
-  // 예약 신청 (멘티가 예약)
-  requestReservation: (
-    reservationId: string,
-    data: { consultationCard: string; menteeUserId?: string }
-  ): Promise<void> => {
-    return apiRequest<void>(`/mentoring-reservations/${reservationId}`, {
+  // 예약 신청(멘티)
+  requestReservation(reservationId: string, data: RequestReservationInput) {
+    if (!reservationId) return Promise.reject(new Error('reservationId is required'))
+    return apiRequest<void>(`/mentoring-reservations/${encodeURIComponent(reservationId)}`, {
       method: 'PATCH',
       body: JSON.stringify(data),
-    });
+    })
   },
-};
+}

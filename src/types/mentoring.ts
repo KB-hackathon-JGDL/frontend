@@ -15,16 +15,13 @@ export interface Mentor {
 }
 
 export interface Session {
-  id: string;
-  mentor: Mentor;
-  turnCurrent: number;
-  datetime: string; // ISO
-  status: SessionStatus;
-  card?: {
-    goal?: string;
-    context?: string;
-    questions?: string[];
-  };
+  id: string
+  mentor: { id: string; name: string; photoUrl?: string }
+  mentee?: { name: string; age: number; photoUrl?: string } // ✅ 추가
+  turnCurrent: number
+  datetime: string
+  status: 'scheduled' | 'completed' | 'canceled'
+  card?: { context: string }
 }
 
 // 백엔드 DTO와 매핑되는 타입들

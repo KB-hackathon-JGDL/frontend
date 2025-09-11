@@ -34,10 +34,10 @@ const dateLabel = computed(() => {
     >
       <div class="flex items-center gap-9 pt-2 md:pt-4">
         <img
-          :src="session.mentor.photoUrl ?? 'https://placehold.co/64x64?text='"
-          class="w-24 h-24 rounded-full object-cover ring-2 ring-blue-200"
-          alt="mentor"
-        />
+  :src="session.mentee?.photoUrl || session.mentor.photoUrl || 'https://placehold.co/64x64?text='"
+  class="w-24 h-24 rounded-full object-cover ring-2 ring-blue-200"
+  alt="profile"
+/>
         <div class="flex-1">
           <div class="flex items-center justify-between">
             <p class="text-[19px] font-semibold">{{ session.mentor.name }}</p>
@@ -59,10 +59,10 @@ const dateLabel = computed(() => {
         </button>
 
         <button
-          @click.stop="$router.push({ name: 'session-card', params: { id: session.id } })"
-          class="flex-1 h-16 rounded-full border border-gray-200 text-gray-700 text-[13px] bg-white hover:bg-gray-50">
-          상담카드 보기
-        </button>
+  @click.stop="$router.push({ name: 'reservation-card', params: { id: session.id } })"
+  class="flex-1 h-16 rounded-full border border-gray-200 text-gray-700 text-[13px] bg-white hover:bg-gray-50">
+  상담카드 보기
+</button>
       </div>
     </div>
   </div>

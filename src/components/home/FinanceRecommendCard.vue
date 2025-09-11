@@ -143,7 +143,7 @@ const cardList = ref<CardItem[]>([
 
         <template v-else>
           <button
-            class="w-[350px] h-[120px] text-left rounded-[40px] bg-white p-4 mr-10 mt-10 ring-1 ring-gray-100 shadow-[0_6px_16px_rgba(0,0,0,0.06)] flex items-center justify-between"
+            class="w-[350px] h-[120px] text-left rounded-[40px] bg-white p-4 ml-10 mt-10 ring-1 ring-gray-100 shadow-[0_6px_16px_rgba(0,0,0,0.06)] flex items-center justify-between"
             @click="startSurvey"
           >
             <div class="ml-8">
@@ -155,7 +155,7 @@ const cardList = ref<CardItem[]>([
               </p>
             </div>
             <span
-              class="w-14 h-14 rounded-full bg-[#FFC727] grid place-items-center"
+              class="w-14 h-14 rounded-full bg-[#FFC727] grid place-items-center mr-4"
             >
               <ChevronRight :size="25" class="text-[#ffffff]" />
             </span>

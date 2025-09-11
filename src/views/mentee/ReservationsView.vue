@@ -8,6 +8,7 @@ import { useSessionStore } from '@/stores/useSession'
 import MentorSessionCard from '@/components/memtor/MentorSessionCard.vue'
 import MentorEndedSessionCard from '@/components/memtor/MentorEndedSessionCard.vue'
 import mentorSessions from '@/mocks/mentorSessions'
+import BottomNav from '@/components/common/BottomNav.vue'
 
 const route = useRoute()
 const store = useSessionStore()
@@ -112,4 +113,5 @@ const retryFetch = async () => {
       </template>
     </main>
   </div>
+  <BottomNav />
 </template>

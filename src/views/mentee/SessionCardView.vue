@@ -3,6 +3,7 @@ import { onMounted, ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useSessionStore } from '@/stores/useSession'
 import type { Session } from '@/types/mentoring'
+import BottomNav from '@/components/common/BottomNav.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -105,4 +106,6 @@ onMounted(async () => {
       </main>
     </div>
   </div>
+  <BottomNav />
+
 </template>

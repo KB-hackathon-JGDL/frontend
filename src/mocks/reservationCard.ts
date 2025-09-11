@@ -1,9 +1,11 @@
+import mentee1 from '@/assets/images/mentee/park.png'
+
 export const reservationCardMock = {
   id: 'R-001',
   mentee: {
     name: '박은빈',
     age: 19,
-    photoUrl: 'https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=800&auto=format&fit=crop',
+    photoUrl: mentee1,
   },
   schedule: {
     date: '09월 20일',

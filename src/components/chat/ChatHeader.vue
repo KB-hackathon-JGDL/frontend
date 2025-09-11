@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type { ChatConfig } from '@/types/chat'
-import { Bot, Circle } from 'lucide-vue-next'
+import { Bot, Circle, ChevronLeft } from 'lucide-vue-next'
 
 const props = defineProps<{ config: ChatConfig }>()
 const emit = defineEmits<{
@@ -21,13 +21,11 @@ function onAvatarError(_e: Event) {
     <div class="h-[85px] flex items-center justify-between">
       <div class="flex items-center gap-3">
         <button
-          @click="emit('back')"
-          class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30"
-          aria-label="뒤로가기"
+        @click="emit('back')"
+        class="w-15 h-15 rounded-full flex items-center justify-center hover:bg-white/30"
+        aria-label="뒤로가기"
         >
-          <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
+        <ChevronLeft class="w-[25px] h-[25px]" />
         </button>
 
         <div class="relative w-24 h-24">

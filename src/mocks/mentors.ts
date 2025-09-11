@@ -1,8 +1,11 @@
+import mentor1 from '@/assets/images/mentor/bangbangbang.png'
+import mentor2 from '@/assets/images/mentor/minjijiji.png'
+import mentor3 from '@/assets/images/mentor/busanman.png'
+
 export interface Mentor {
   id: string
   name: string
   photoUrl: string
-
 
   category: string  
   tagsText: string       
@@ -17,7 +20,7 @@ export const mentors: Mentor[] = [
   {
     id: 'M-01',
     name: '상담사 김범로',
-    photoUrl: 'https://i.pravatar.cc/120?img=11',
+    photoUrl: mentor1,
     category: '대출/금융 상담',
     tagsText: '# 상냥한 # 유머있는',
     orgText: '여의도 펀드회사 근무',
@@ -26,8 +29,8 @@ export const mentors: Mentor[] = [
   },
   {
     id: 'M-02',
-    name: '상담사 박지원',
-    photoUrl: 'https://i.pravatar.cc/120?img=12',
+    name: '상담사 김민지',
+    photoUrl: mentor2,
     category: '진로/이직',
     tagsText: '# 이직 멘토 # IT출신',
     orgText: 'KB은행 근무',
@@ -36,8 +39,8 @@ export const mentors: Mentor[] = [
   },
   {
     id: 'M-03',
-    name: '상담사 장블루',
-    photoUrl: 'https://i.pravatar.cc/120?img=13',
+    name: '상담사 박지훈',
+    photoUrl: mentor3,
     category: '면접/포트폴리오',
     tagsText: '# 면접관 # 포폴 리뷰',
     orgText: '전직 현업 면접관',

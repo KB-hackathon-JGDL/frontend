@@ -10,7 +10,7 @@ const items = [
     { name: '커뮤', icon: ClipboardList, to: '/commu'    },
     { name: '봇',   icon: Bot,           to: '/chatbot', center: true },
   { name: '지원정책', icon: Landmark,      to: '/supports' },
-  { name: '멘토', icon: GraduationCap, to: '/menter'    },
+  { name: '멘토', icon: GraduationCap, to: '/mentors'    },
 ]
 
 const isActive = (path: string) => route.path === path

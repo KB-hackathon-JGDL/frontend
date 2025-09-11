@@ -3,6 +3,7 @@
 import { useRouter } from 'vue-router'
 import { reservationCardMock } from '@/mocks/reservationCard'
 import { ChevronLeft } from 'lucide-vue-next'
+import BottomNav from '@/components/common/BottomNav.vue'
 
 const router = useRouter()
 const goBack = () => router.back()
@@ -63,5 +64,6 @@ const card = reservationCardMock
         </div>
       </main>
     </div>
-  </div>
+    </div>
+    <BottomNav />
 </template>

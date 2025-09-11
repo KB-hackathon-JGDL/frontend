@@ -2,6 +2,8 @@
 import { onMounted } from 'vue'
 import { useMentorStore } from '@/stores/useMentor'
 import MentorRowCard from '@/components/memtor/MentorRowCard.vue'
+import BottomNav from '@/components/common/BottomNav.vue'
+
 const store = useMentorStore()
 onMounted(() => store.loadMock())
 </script>
@@ -15,4 +17,6 @@ onMounted(() => store.loadMock())
       </div>
     </section>
   </main>
+  <BottomNav />
+
 </template>

@@ -29,7 +29,7 @@ const openApplyUrl = () => {
 
 <template>
   <div class="min-h-dvh bg-[#ffffff]">
-    <header class="h-[88px] bg-[#578FFD] text-white px-5 pt-7">
+    <header class="h-[85px] bg-[#578FFD] text-white px-5 pt-7">
       <div class="flex items-center gap-2">
         <button
           class="w-12 h-12 rounded-full mt-4 grid place-items-center"

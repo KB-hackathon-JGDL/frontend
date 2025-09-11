@@ -53,7 +53,7 @@ const goHome = () => {
 
 <template>
   <div class="mx-auto w-[430px] h-[932px] bg-[#F4F6FE] shadow-2xl overflow-hidden">
-    <header class="h-[88px] bg-[#578FFD] text-white px-5 pt-6">
+    <header class="h-[85px] bg-[#578FFD] text-white px-5 pt-6">
       <div class="flex items-center gap-2">
         <button
           class="w-10 h-10 rounded-full bg-white/20 grid place-items-center"

@@ -47,7 +47,7 @@ function onBack() {
 
 <template>
   <div class="min-h-dvh bg-[#F4F6FE]">
-    <header class="h-[88px] bg-[#578FFD] text-white px-5 pt-6">
+    <header class="h-[85px] bg-[#578FFD] text-white px-5 pt-6">
       <div class="flex items-center gap-2">
         <button class="w-10 h-10 rounded-full mt-3 bg-white/20 grid place-items-center" @click="onBack">
           <ChevronLeft :size="18" />

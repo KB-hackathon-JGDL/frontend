@@ -1,12 +1,12 @@
 // src/mocks/reservationsMock.ts
 import type { MentoringReservationDTO } from '@/types/mentoring'
-import mentee1 from '@/assets/images/mentee/park.png'
+import mentee1 from '@/assets/images/mentee/hyejung.png'
 
 const reservationsMock: MentoringReservationDTO[] = [
   {
     mentoringReservationId: 'R-001',
     mentorUserId: 'M-01',
-    name: '박은빈 (19세)',
+    name: '황혜정 (19세)',
     photoUrl: mentee1,
     mentoringDate: '2025-09-20',
     mentoringTime: 11,

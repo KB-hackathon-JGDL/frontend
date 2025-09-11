@@ -10,7 +10,7 @@ export default [
       photoUrl: hyejungImg
     },
     turnCurrent: 3,
-    datetime: new Date('2025-09-12T14:00:00').toISOString(),
+    datetime: new Date('2025-09-20T11:00:00').toISOString(),
     status: 'completed',
     card: {
       context: '종료된 상담입니다.',

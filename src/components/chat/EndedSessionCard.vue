@@ -50,7 +50,7 @@ function goReadonly(e?: MouseEvent) {
               종료됨
             </span>
           </div>
-          <p class="text-[15px] text-gray-500 mt-1">상담 시간: {{ dateLabel }}</p>
+          <p class="text-[15px] text-gray-500 mt-1">상담 예약일: {{ dateLabel }}</p>
         </div>
       </div>
     </div>

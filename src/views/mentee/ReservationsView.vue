@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import SegmentedTabs from '@/components/mentee/SegmentedTabs.vue'
 import SessionCard from '@/components/mentee/SessionCard.vue'
 import EndedSessionCard from '@/components/chat/EndedSessionCard.vue'
@@ -14,9 +14,26 @@ const route = useRoute()
 const store = useSessionStore()
 
 const isMentor = computed(() => String(route.query.role ?? '') === 'mentor')
-const tab = ref<'upcoming' | 'completed'>('upcoming')
-watch(isMentor, () => { tab.value = 'upcoming' })
 
+// ✅ 무조건 upcoming으로 초기화
+const tab = ref<'upcoming' | 'completed'>('upcoming')
+
+// ✅ 최초 진입 시 쿼리 반영
+onMounted(() => {
+  const initial = route.query.tab as 'upcoming' | 'completed'
+  if (initial === 'completed') {
+    tab.value = 'completed'
+  }
+})
+
+// ✅ 라우트가 바뀔 때도 반영
+watch(() => route.query.tab, (val) => {
+  if (val === 'completed' || val === 'upcoming') {
+    tab.value = val
+  }
+})
+
+// --- 이하 기존 코드 동일 ---
 const mentorId = computed(() => String(route.params.mentorId || ''))
 const usingBackend = computed(() => !!mentorId.value)
 
@@ -24,7 +41,6 @@ onMounted(() => {
   if (usingBackend.value) {
     store.fetchReservations(mentorId.value)
   } else {
-    // ✅ 목데이터 사용
     store.loadMockReservations()
   }
 })
@@ -41,19 +57,20 @@ const completedList = computed(() =>
   usingBackend.value ? store.completedReservations : store.completed
 )
 
-// 멘토 탭(Mock)
 type MentorSession = (typeof mentorSessions)[number]
 const mentorAll = ref<MentorSession[]>(mentorSessions as any)
-const mentorUpcoming = computed(() => mentorAll.value.filter(s => String(s.status).toLowerCase() === 'scheduled'))
-const mentorCompleted = computed(() => mentorAll.value.filter(s => String(s.status).toLowerCase() !== 'scheduled'))
+const mentorUpcoming = computed(() =>
+  mentorAll.value.filter(s => String(s.status).toLowerCase() === 'scheduled')
+)
+const mentorCompleted = computed(() =>
+  mentorAll.value.filter(s => String(s.status).toLowerCase() !== 'scheduled')
+)
 
 const expandedId = ref<string | null>(null)
 watch(tab, () => { expandedId.value = null })
 
-const retryFetch = async () => {
-  if (usingBackend.value) await store.fetchReservations(mentorId.value)
-  else store.loadMockReservations()
-}
+watch(tab, (nv) => console.log('현재 탭 값:', nv))
+
 </script>
 
 <template>
@@ -69,6 +86,7 @@ const retryFetch = async () => {
     </div>
 
     <main class="px-4 py-3 space-y-3 max-w-screen-sm mx-auto w-full">
+      <!-- 기존 로직 동일 -->
       <template v-if="!isMentor">
         <template v-if="tab === 'upcoming'">
           <SessionCard
@@ -104,11 +122,15 @@ const retryFetch = async () => {
             :show-actions="true"
             @toggle="(id) => (expandedId = expandedId === id ? null : id)"
           />
-          <p v-if="!mentorUpcoming.length" class="text-center text-sm text-gray-500 py-10">예약된 상담이 없습니다.</p>
+          <p v-if="!mentorUpcoming.length" class="text-center text-sm text-gray-500 py-10">
+            예약된 상담이 없습니다.
+          </p>
         </template>
         <template v-else>
           <MentorEndedSessionCard v-for="s in mentorCompleted" :key="s.id" :session="s" />
-          <p v-if="!mentorCompleted.length" class="text-center text-sm text-gray-500 py-10">종료된 상담이 없습니다.</p>
+          <p v-if="!mentorCompleted.length" class="text-center text-sm text-gray-500 py-10">
+            종료된 상담이 없습니다.
+          </p>
         </template>
       </template>
     </main>

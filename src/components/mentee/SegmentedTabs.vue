@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const model = defineModel<'upcoming' | 'completed'>({ required: true });
+const model = defineModel<'upcoming' | 'completed'>({ default: 'upcoming' })
 </script>
 
 <template>
@@ -7,9 +7,9 @@ const model = defineModel<'upcoming' | 'completed'>({ required: true });
     <div class="flex h-28 border-b border-gray-200">
       <button
         @click="model = 'upcoming'"
-        :class="[
+        :class="[ 
           'flex-1 relative grid place-items-center text-[16px] font-semibold',
-          model === 'upcoming' ? 'text-blue-600' : 'text-gray-700',
+          model === 'upcoming' ? 'text-blue-600' : 'text-gray-700'
         ]"
       >
         예약된 채팅
@@ -21,9 +21,9 @@ const model = defineModel<'upcoming' | 'completed'>({ required: true });
 
       <button
         @click="model = 'completed'"
-        :class="[
+        :class="[ 
           'flex-1 relative grid place-items-center text-[16px] font-semibold',
-          model === 'completed' ? 'text-blue-600' : 'text-gray-700',
+          model === 'completed' ? 'text-blue-600' : 'text-gray-700'
         ]"
       >
         종료된 채팅

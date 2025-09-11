@@ -6,11 +6,13 @@ import type { Session } from '@/types/mentoring'
 const props = defineProps<{ session: Session }>()
 const router = useRouter()
 
+// 상담 날짜 라벨
 const dateLabel = computed(() => {
   const d = new Date(props.session.datetime)
   return `${d.getMonth() + 1}월 ${d.getDate()}일 ${d.getHours()}시`
 })
 
+// 종료된 상담 → 읽기 전용 모드 진입
 function goReadonly(e?: MouseEvent) {
   e?.stopPropagation()
   router.push({
@@ -34,14 +36,16 @@ function goReadonly(e?: MouseEvent) {
       ]"
     >
       <div class="flex items-center gap-9 pt-2 md:pt-4">
+        <!-- ✅ 멘티 프로필 사진만 표시 -->
         <img
-          :src="props.session.mentor.photoUrl ?? 'https://placehold.co/64x64?text='"
+          :src="props.session.mentee.photoUrl ?? 'https://placehold.co/64x64?text='"
           class="w-24 h-24 rounded-full object-cover ring-2 ring-blue-200"
-          alt="mentor"
+          alt="mentee"
         />
         <div class="flex-1">
           <div class="flex items-center justify-between">
-            <p class="text-[19px] font-semibold">{{ props.session.mentor.name }}</p>
+            <!-- ✅ 멘티 이름만 표시 -->
+            <p class="text-[19px] font-semibold">{{ props.session.mentee.name }}</p>
             <span class="text-[15px] px-5 py-0.5 rounded-full bg-white text-gray-500 border border-gray-200">
               종료됨
             </span>

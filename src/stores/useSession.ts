@@ -5,6 +5,7 @@ import { mentoringApi } from '@/api/api'
 import mockSessions from '@/mocks/sessions'
 // ✅ 목데이터 import
 import reservationsMock from '@/mocks/reservations'
+import completedSessionsMock from '@/mocks/endchat.ts'
 
 export const useSessionStore = defineStore('session', () => {
   const sessions = ref<Session[]>([])
@@ -60,7 +61,7 @@ export const useSessionStore = defineStore('session', () => {
       id: reservation.mentoringReservationId,
       mentor: {
         id: reservation.mentorUserId,
-        name: '상담사 ' + reservation.name,
+        name: reservation.name,
         photoUrl: reservation.photoUrl ?? 'https://placehold.co/64x64?text=M',
       },
       turnCurrent: 1,
@@ -78,6 +79,12 @@ export const useSessionStore = defineStore('session', () => {
       default: return 'canceled'
     }
   }
+
+  
+function loadMockReservations() {
+  reservations.value = reservationsMock
+  sessions.value = completedSessionsMock as unknown as Session[]
+}
 
   // =======================
   // API Actions
@@ -129,11 +136,6 @@ export const useSessionStore = defineStore('session', () => {
 
   function loadMock() {
     sessions.value = mockSessions as unknown as Session[]
-  }
-
-  // ✅ 추가: 목 예약 불러오기
-  function loadMockReservations() {
-    reservations.value = reservationsMock
   }
 
   function getById(id: string) {

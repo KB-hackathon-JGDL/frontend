@@ -6,6 +6,8 @@ import { useSurveyStore } from '@/stores/useSurvey'
 import type { Product } from '@/stores/useSurvey'
 import kb from '@/assets/images/bank/kb.png'  
 
+const productId = (p: Product) =>
+  (p as any).id ?? p.title.replace(/\s+/g, '-').toLowerCase()
 const router = useRouter()
 const store = useSurveyStore()
 
@@ -107,9 +109,14 @@ const cardList = ref<CardItem[]>([
                   </p>
                 </div>
               </div>
-              <span class="w-14 h-14 rounded-full bg-[#FFC727] grid place-items-center mr-4">
-                <ChevronRight :size="25" class="text-white" />
-              </span>
+              <RouterLink
+  :to="{ name: 'finance-product-detail', params: { id: productId(p) } }"
+  class="w-14 h-14 rounded-full bg-[#FFC727] grid place-items-center mr-4"
+  aria-label="상세 보기"
+>
+  <ChevronRight :size="25" class="text-white" />
+</RouterLink>
+
             </div>
           </div>
         </template>

@@ -68,6 +68,12 @@ const routes = [
   name: 'finance-all',
   component: () => import('@/views/finance/FinanceAllProductsView.vue'),
 },
+{
+  path: '/finance/products/:id',
+  name: 'finance-product-detail',
+  component: () => import('@/views/finance/FinanceProductDetailView.vue'),
+  props: true,
+},
 
 ]
 

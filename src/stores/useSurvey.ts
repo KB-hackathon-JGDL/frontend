@@ -56,9 +56,24 @@ export const useSurveyStore = defineStore('survey', {
         priorityGoal: avg([sc[3], sc[7], sc[9]]),
       };
     },
+
+    // ✅ 어떤 경우에도 최소 3개 기본 추천 반환
     recommendedProducts(state): Product[] {
-      if (!state.persona) return [];
-      return state.recommendations[state.persona.name] ?? [];
+      const personaRecs = state.persona
+        ? state.recommendations[state.persona.name] ?? []
+        : [];
+
+      const anyRecs = state.recommendations['any'] ?? [];
+
+      // 무조건 fallback 3개
+      const fallback: Product[] = [
+        { title: 'KB 특★한 적금',   rate: { min: 2.0,  max: 6.0 } },
+        { title: 'KB 내맘대로 적금', rate: { min: 2.3,  max: 3.55 } },
+        { title: 'KB 맑은하늘 적금', rate: { min: 2.45, max: 3.85 } },
+      ];
+
+      const combined = [...personaRecs, ...anyRecs];
+      return combined.length > 0 ? combined : fallback;
     },
   },
 

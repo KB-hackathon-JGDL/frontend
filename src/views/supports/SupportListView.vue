@@ -3,6 +3,7 @@ import { useSupportStore } from '@/stores/useSupport';
 import SupportListItem from '@/components/supports/SupportListItem.vue';
 import { Bell, User2, ChevronLeft } from 'lucide-vue-next';
 import { useRouter } from 'vue-router';
+import BottomNav from '@/components/common/BottomNav.vue'
 
 const store = useSupportStore();
 store.loadMock();
@@ -34,4 +35,5 @@ const router = useRouter();
       <SupportListItem v-for="it in store.items" :key="it.id" :item="it" />
     </main>
   </div>
+  <BottomNav />
 </template>

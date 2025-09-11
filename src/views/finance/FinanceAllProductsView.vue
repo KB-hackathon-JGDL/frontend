@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ChevronLeft, Star } from 'lucide-vue-next'
+import BottomNav from '@/components/common/BottomNav.vue'
 
 type Rate = { min: number; max: number; asOf?: string }
 type Product = { id: string; bank: 'KB'|'HANA'|'SHINHAN'|'WOORI'; title: string; rate?: Rate }
@@ -97,4 +98,6 @@ const goDetail = (id: string) =>
       </div>
     </main>
   </div>
+    <BottomNav />
+
 </template>

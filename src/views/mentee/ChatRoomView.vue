@@ -68,7 +68,7 @@ const messageList = computed<ChatMessage[]>(() => {
 
 const config = computed<ChatConfig>(() => ({
   title: peerName.value,
-  placeholder: currentRole.value === 'mentee' ? '멘티로 작성…' : '멘토로 작성…',
+  placeholder: '메세지를 입력하세요',
   apiEndpoint: '/api/chat',
   theme: 'blue',
   botName: peerName.value,

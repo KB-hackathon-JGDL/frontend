@@ -1,22 +1,25 @@
 <script setup lang="ts">
-import { useSupportStore } from '@/stores/useSupport'
-import SupportListItem from '@/components/supports/SupportListItem.vue'
-import { Bell, User2, ChevronLeft } from 'lucide-vue-next'
-import { useRouter } from 'vue-router'
+import { useSupportStore } from '@/stores/useSupport';
+import SupportListItem from '@/components/supports/SupportListItem.vue';
+import { Bell, User2, ChevronLeft } from 'lucide-vue-next';
+import { useRouter } from 'vue-router';
 
-const store = useSupportStore()
-store.loadMock()
+const store = useSupportStore();
+store.loadMock();
 
-const router = useRouter()
+const router = useRouter();
 </script>
 
 <template>
   <div class="min-h-dvh bg-[#F4F6FE]">
-    <header class="h-[88px] bg-[#578FFD] text-white px-5 pt-6">
+    <header class="h-[88px] bg-[#578FFD] text-white px-5 pt-7">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <button class="w-12 h-12 rounded-full mt-4 grid place-items-center" @click="router.back()">
-            <ChevronLeft :size="18" />
+          <button
+            class="w-12 h-12 rounded-full mt-4 grid place-items-center"
+            @click="router.back()"
+          >
+            <ChevronLeft :size="25" />
           </button>
           <h1 class="text-[23px] font-semibold mt-4 ml-5">지원사업</h1>
         </div>

@@ -6,7 +6,7 @@ const router = useRouter()
 const route  = useRoute()
 
 const items = [
-    { name: '채팅', icon: MessageSquare, to: '/chat'     },
+    { name: '채팅', icon: MessageSquare, to: '/reservations'},
     { name: '커뮤', icon: ClipboardList, to: '/commu'    },
     { name: '봇',   icon: Bot,           to: '/chatbot', center: true },
   { name: '지원정책', icon: Landmark,      to: '/supports' },

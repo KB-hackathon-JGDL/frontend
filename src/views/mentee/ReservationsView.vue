@@ -38,7 +38,7 @@ const upcomingList = computed(() =>
   usingBackend.value ? store.upcomingReservations : store.upcomingReservations
 )
 const completedList = computed(() =>
-  usingBackend.value ? store.completedReservations : store.completedReservations
+  usingBackend.value ? store.completedReservations : store.completed
 )
 
 // 멘토 탭(Mock)

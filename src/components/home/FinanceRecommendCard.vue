@@ -142,7 +142,7 @@ const cardList = ref<CardItem[]>([
       </template>
 
       <template v-else>
-        <div class="grid gap-6 mt-6 mt-12">
+        <div class="grid gap-6 mt-6 mt-[30px]">
           <div
             v-for="c in cardList"
             :key="c.title"

@@ -74,6 +74,11 @@ const routes = [
   component: () => import('@/views/finance/FinanceProductDetailView.vue'),
   props: true,
 },
+{
+  path: '/login',
+  name: 'Login',
+  component: () => import('@/views/auth/LoginView.vue'),
+},
 
 ]
 

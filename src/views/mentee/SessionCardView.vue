@@ -1,4 +1,3 @@
-<!-- SessionCard.vue -->
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -19,13 +18,11 @@ const dateLabel = computed(() => {
   return `${d.getMonth() + 1}월 ${d.getDate()}일 ${d.getHours()}시`
 })
 
-// 예약: 일반 채팅방
 function goChat(e?: MouseEvent) {
   e?.stopPropagation()
   router.push({ name: 'mentee-chat', params: { sessionId: props.session.id } })
 }
 
-// 종료/취소: 읽기 전용 채팅방
 function openHistory(e?: MouseEvent) {
   e?.stopPropagation()
   router.push({
@@ -35,7 +32,6 @@ function openHistory(e?: MouseEvent) {
   })
 }
 
-// 상담카드 보기
 function openCard(e?: MouseEvent) {
   e?.stopPropagation()
   router.push({ name: 'session-card', params: { id: props.session.id } })
@@ -44,7 +40,6 @@ function openCard(e?: MouseEvent) {
 
 <template>
   <div class="space-y-3">
-    <!-- 카드 본문: 클릭하면 펼침 -->
     <div
       @click="emit('toggle', session.id)"
       role="button"
@@ -74,10 +69,8 @@ function openCard(e?: MouseEvent) {
       </div>
     </div>
 
-    <!-- ✅ 하단 액션바: 펼친 경우에만 노출 (예약/종료 공통) -->
     <div v-if="showActions && expanded" class="px-8 md:px-10 mt-2">
       <div class="flex gap-3">
-        <!-- 첫 버튼: 상태에 따라 액션/색/라벨 변경 -->
         <button
           @click.stop="session.status === 'scheduled' ? goChat($event) : openHistory($event)"
           :class="[
@@ -90,7 +83,6 @@ function openCard(e?: MouseEvent) {
           {{ session.status === 'scheduled' ? '상담 하러가기' : '이전 채팅 보기' }}
         </button>
 
-        <!-- 두 번째 버튼: 상담카드 보기 -->
         <button
           @click.stop="openCard"
           class="flex-1 h-16 rounded-full border border-gray-200 text-gray-700 text-[13px] bg-white hover:bg-gray-50"

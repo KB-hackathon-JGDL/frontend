@@ -5,7 +5,6 @@ const props = defineProps<{ message: ChatMessage; avatarUrl?: string }>()
 
 <template>
   <div class="mb-4">
-    <!-- 상담사(왼쪽) -->
     <div v-if="props.message.sender === 'bot'" class="flex items-start gap-3">
       <img
         :src="props.avatarUrl || 'https://placehold.co/40x40?text=%20'"
@@ -21,7 +20,6 @@ const props = defineProps<{ message: ChatMessage; avatarUrl?: string }>()
       </div>
     </div>
 
-    <!-- 멘티(오른쪽) -->
     <div v-else class="flex justify-end">
       <div class="flex items-end gap-2 max-w-[86%]">
         <div class="bg-[#7BA7FD] text-white rounded-3xl rounded-tr-md px-4 py-3 shadow">

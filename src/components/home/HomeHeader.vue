@@ -5,7 +5,7 @@ import NamePng from '@/assets/images/header/name.png'
 </script>
 
 <template>
-  <header class="h-[88px] bg-[#4A79F6] text-white px-7 pt-6 shadow-lg">
+  <header class="h-[88px] bg-[#578FFD] text-white px-7 pt-6 shadow-lg">
     <div class="flex items-center justify-between">
      <div class="flex items-center gap-1 ml-3">
         <img :src="NamePng" alt="Jamancu" class="h-24 w-auto select-none" />

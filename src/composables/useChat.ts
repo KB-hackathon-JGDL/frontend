@@ -6,7 +6,6 @@ export function useChat(config: ChatConfig) {
   const isLoading = ref(false)
 
   const sendMessage = async (content: string) => {
-    // Add user message
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       content,
@@ -15,7 +14,6 @@ export function useChat(config: ChatConfig) {
     }
     messages.value.push(userMessage)
 
-    // Call API
     isLoading.value = true
     try {
       const response = await fetch(config.apiEndpoint, {
@@ -28,7 +26,6 @@ export function useChat(config: ChatConfig) {
       
       const data = await response.json()
       
-      // Add bot response
       const botMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         content: data.response,

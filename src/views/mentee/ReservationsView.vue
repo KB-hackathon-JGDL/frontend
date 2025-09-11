@@ -98,11 +98,9 @@ const retryFetch = async () => {
 
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col">
-    <header class="sticky top-0 z-10 bg-[#4A79F6] text-white shadow">
+    <header class="sticky top-0 z-10 bg-[#578FFD] text-white shadow">
       <div class="h-[85px] px-4 flex items-center">
         <h1 class="text-[18px] font-semibold">
-          예약/종료된 상담
-          <span v-if="isMentor" class="opacity-80 text-sm">(멘토)</span>
         </h1>
       </div>
     </header>

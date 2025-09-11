@@ -4,7 +4,9 @@ import ChatBot from '@/views/chat/ChatBot.vue'
 import MentorDetailPage from '@/views/mentor/MentorDetailPage.vue'
 import ReservePage from '@/views/mentor/ReservePage.vue'
 import ConsultationCard from '@/views/mentor/ConsultationCard.vue'
-import ReviewKeywordsView from '@/views/mentee/ReviewKeywordsView.vue' // [추가]
+import ReviewKeywordsView from '@/views/mentee/ReviewKeywordsView.vue'
+import SurveyOptionButton from '@/components/survey/SurveyOptionButton.vue'
+import SurveyQuestionView from '@/views/survey/SurveyQuestionView.vue'
 
 const routes = [
   { path: '/', redirect: '/home' },
@@ -31,7 +33,7 @@ const routes = [
   {
     path: '/mentors',
     name: 'mentors-list',
-    component: () => import('@/views/mentor/MemtorListView.vue'), // ← 오타면 파일명도 수정
+    component: () => import('@/views/mentor/MemtorListView.vue'),
   },
   {
     path: '/mentors/:id',
@@ -54,12 +56,18 @@ const routes = [
   
   { path: '/supports', name: 'supports-list', component: () => import('@/views/supports/SupportListView.vue') },
 
-  { path: '/finance/recommend', name: 'finance-survey-intro', component: () => import('@/views/finance/FinanceSurveyIntroView.vue') },
     {
     path: '/supports/:id',
     name: 'support-detail',
     component: () => import('@/views/supports/SupportDetailView.vue'),
   },
+  { path: '/survey/result', name: 'survey-result', component: () => import('@/views/survey/SurveyResultView.vue') },
+   { path: '/survey/:step(\\d+)?', name: 'survey', component: () => import('@/views/survey/SurveyQuestionView.vue') },
+   {
+  path: '/finance/all',
+  name: 'finance-all',
+  component: () => import('@/views/finance/FinanceAllProductsView.vue'),
+},
 
 ]
 

@@ -12,14 +12,13 @@ const router = useRouter()
 
 <template>
   <div class="min-h-dvh bg-[#F4F6FE]">
-    <!-- 파란 헤더 -->
-    <header class="h-[88px] bg-[#4A79F6] text-white px-5 pt-6">
+    <header class="h-[88px] bg-[#578FFD] text-white px-5 pt-6">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <button class="w-12 h-12 rounded-full mt-4 bg-white/20 grid place-items-center" @click="router.back()">
+          <button class="w-12 h-12 rounded-full mt-4 grid place-items-center" @click="router.back()">
             <ChevronLeft :size="18" />
           </button>
-          <h1 class="text-[18px] font-semibold mt-4 ml-5">지원사업</h1>
+          <h1 class="text-[23px] font-semibold mt-4 ml-5">지원사업</h1>
         </div>
         <div class="flex items-center gap-5 mr-8 mt-4">
           <Bell :size="24" class="opacity-90" />
@@ -28,7 +27,6 @@ const router = useRouter()
       </div>
     </header>
 
-    <!-- 리스트 -->
     <main class="px-5 py-3 space-y-4 h-[900px] bg-[#ffffff]">
       <SupportListItem v-for="it in store.items" :key="it.id" :item="it" />
     </main>

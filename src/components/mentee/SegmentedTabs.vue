@@ -1,11 +1,9 @@
-<!-- src/components/mentee/SegmentedTabs.vue -->
 <script setup lang="ts">
 const model = defineModel<'upcoming' | 'completed'>({ required: true })
 </script>
 
 <template>
   <div class="bg-white">
-    <!-- 기본 하단 경계선 -->
     <div class="flex h-28 border-b border-gray-200">
       <button
         @click="model = 'upcoming'"

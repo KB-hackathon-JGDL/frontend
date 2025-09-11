@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted, onBeforeUnmount, ref } from 'vue'   // [ref 추가]
+import { computed, onMounted, onBeforeUnmount, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useSessionStore } from '@/stores/useSession'
 import { useChatStore } from '@/stores/useChat'
 import ChatHeader from '@/components/chat/ChatHeader.vue'
 import MessageItem from '@/components/chat/MessageItem.vue'
 import MessageInput from '@/components/chat/MessageInput.vue'
-import EndChatConfirmModal from '@/components/modal/EndChatConfirmModal.vue'   // [추가]
+import EndChatConfirmModal from '@/components/modal/EndChatConfirmModal.vue'
 import type { ChatConfig, ChatMessage } from '@/types/chat'
 
 const props = withDefaults(defineProps<{
@@ -82,14 +82,14 @@ function onSend(text: string) {
 
 const showEndModal = ref(false)
 
-function openEndConfirm() {            // 헤더 @end가 호출
+function openEndConfirm() {          
   if (!session.value || session.value.status === 'completed') return
   showEndModal.value = true
 }
-function closeEndConfirm() {           // 모달: 채팅으로 돌아가기
+function closeEndConfirm() {           
   showEndModal.value = false
 }
-function confirmEnd() {                // 모달: 종료하기
+function confirmEnd() {                
   const s = session.value
   if (!s || s.status === 'completed') return
 

@@ -1,4 +1,3 @@
-<!-- EndedSessionCard.vue -->
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -30,7 +29,6 @@ function goReadonly(e?: MouseEvent) {
       @keydown.enter.prevent="goReadonly"
       @keydown.space.prevent="goReadonly"
       :class="[
-        // ✅ SessionCard와 동일
         'rounded-3xl border bg-white p-8 md:p-10 shadow-md min-h-[120px] cursor-pointer transition',
         'border-blue-200/80 hover:shadow'
       ]"
@@ -44,7 +42,6 @@ function goReadonly(e?: MouseEvent) {
         <div class="flex-1">
           <div class="flex items-center justify-between">
             <p class="text-[19px] font-semibold">{{ props.session.mentor.name }}</p>
-            <!-- 필요 없으면 이 뱃지 줄 통째로 삭제해도 OK -->
             <span class="text-[15px] px-5 py-0.5 rounded-full bg-white text-gray-500 border border-gray-200">
               종료됨
             </span>

@@ -60,20 +60,17 @@ function reserve() {
 
 <template>
   <div class="min-h-dvh bg-[#F4F6FE]">
-    <!-- 헤더 -->
-    <header class="sticky top-0 z-10 h-[85px] bg-[#4A79F6] text-white">
+    <header class="sticky top-0 z-10 h-[85px] bg-[#578FFD] text-white">
         <div class="h-[64px] flex items-center gap-2 px-5 pt-8">
             <button @click="router.back()"><ChevronLeft class="w-19 h-19" /></button>
-            <h1 class="text-[20px] font-semibold">상담</h1>
+            <h1 class="text-[23px] font-semibold">상담</h1>
         </div>
     </header>
 
-    <!-- 본문 -->
     <main class="max-w-[480px] mx-auto p-6 pb-28">
       <section
         class="bg-white min-h-[830px] border border-[#E6EAF5] rounded-3xl bg-white shadow-sm overflow-hidden"
       >
-        <!-- 큰 프로필 영역 -->
         <div class="aspect-[16/8.5] relative overflow-hidden">
           <img
             v-if="mentor?.photoUrl"
@@ -87,14 +84,12 @@ function reserve() {
           </div>
         </div>
 
-        <!-- 탭 구분선 -->
         <div class="px-71 py-4 border-b border-[#E6EAF5] flex justify-center">
             <p class="text-[#4A79F6] text-[19px] font-semibold">
             프로필
             </p>
         </div>
 
-        <!-- 정보 -->
         <div class="p-5 text-[16px] text-gray-700 space-y-3">
           <div class="flex gap-2">
             <span class="shrink-0 text-gray-500">분야:</span>
@@ -110,7 +105,6 @@ function reserve() {
           </div>
         </div>
 
-        <!-- 소개문구 -->
         <div
           class="m-7 p-5 bg-[#F6F8FF] border border-[#E6EAF5] rounded-2xl text-[15px] text-gray-700"
         >
@@ -120,11 +114,9 @@ function reserve() {
         </div>
       </section>
 
-      <!-- 스페이서: 버튼과 겹치지 않도록 -->
       <div class="h-[14rem]"></div>
     </main>
 
-    <!-- 하단 고정 버튼 -->
     <div class="fixed inset-x-0 -bottom-10">
       <div class="max-w-[160px] mx-auto py-56">
         <button

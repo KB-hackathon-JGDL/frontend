@@ -5,7 +5,7 @@ const API_BASE_URL = '/api';
 // JWT 토큰 관리 (추후 실제 토큰 로직으로 교체)
 const getAuthToken = (): string => {
   // TODO: 실제 JWT 토큰 로직으로 교체
-  return 'eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwibmFtZSI6IuyCrOyaqeyekDEiLCJ1c2VySWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDEiLCJ1c2VybmFtZSI6InVzZXIxIiwic3ViIjoidXNlcjEiLCJpYXQiOjE3NTc1NTgwODUsImV4cCI6MTc2MTE1ODA4NX0.AImrfKpuqRRQG-xf3oC76DcRTGoe8npUWTMB53CNdZ8';
+  return '';
 };
 
 // HTTP 요청 헬퍼

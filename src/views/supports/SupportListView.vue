@@ -12,7 +12,7 @@ const router = useRouter();
 
 <template>
   <div class="min-h-dvh bg-[#F4F6FE]">
-    <header class="h-[88px] bg-[#578FFD] text-white px-5 pt-7">
+    <header class="h-[85px] bg-[#578FFD] text-white px-5 pt-7">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
           <button

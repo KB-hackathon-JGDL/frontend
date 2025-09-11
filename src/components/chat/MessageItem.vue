@@ -6,7 +6,6 @@ import type { ChatMessage } from '@/types/chat'
 const props = withDefaults(defineProps<{
   message: ChatMessage
   avatarUrl?: string
-  /** 멘토링/챗봇 모두 지원: 지정 안 해도 동작 */
   role?: 'mentee' | 'mentor' | 'user' | 'bot'
   peerName?: string
   showTime?: boolean
@@ -17,23 +16,18 @@ const props = withDefaults(defineProps<{
 
 const isSystem = computed(() => props.message.sender === 'system')
 
-/** 오른쪽 정렬(내 메시지) 판별 */
 const isSelf = computed(() => {
   if (isSystem.value) return false
 
-  // 명시적으로 role을 준 경우 (user|bot)
   if (props.role === 'user') return props.message.sender === 'user'
   if (props.role === 'bot')  return props.message.sender === 'bot'
 
-  // 멘토링 화면 규칙
   if (props.role === 'mentee') return props.message.sender === 'user'
   if (props.role === 'mentor') return props.message.sender === 'bot'
 
-  // 기본(챗봇 등 역할 미지정): user면 내 메시지
   return props.message.sender === 'user'
 })
 
-// 시간을 “AM/PM h:mm” 로 표시
 const timeText = computed(() => {
   const d = new Date(props.message.timestamp)
   const hh = d.getHours() % 12 || 12
@@ -42,7 +36,6 @@ const timeText = computed(() => {
   return `${ap} ${hh}:${mm}`
 })
 
-// URL 자동 링크
 function autoLink(text: string) {
   return text.replace(
     /(https?:\/\/[^\s]+)/g,
@@ -59,7 +52,6 @@ const html = computed(() => autoLink(props.message.content || ''))
     </span>
   </div>
 
-  <!-- 내가 보낸 메시지(오른쪽) -->
   <div v-else-if="isSelf" class="flex items-end justify-end gap-2 mb-6">
     <div v-if="showTime" class="text-[13px] text-gray-400 pb-0.5">{{ timeText }}</div>
     <div class="max-w-[88%]">

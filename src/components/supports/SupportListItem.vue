@@ -2,22 +2,18 @@
 import { ref } from 'vue'
 import type { SupportItem } from '@/types/support'
 import { Heart } from 'lucide-vue-next'
-import { useRouter } from 'vue-router'            // 👉 추가
+import { useRouter } from 'vue-router'
 
 const props = defineProps<{ item: SupportItem }>()
 const liked = ref(false)
-const router = useRouter()                         // 👉 추가
+const router = useRouter()
 
 const toggleLike = (e: MouseEvent) => {
   e.stopPropagation()
   liked.value = !liked.value
 }
 
-// 👉 추가: 상세로 이동
 const goDetail = () => {
-  // 네임드 라우트가 있으면 권장
-  // router.push({ name: 'support-detail', params: { id: props.item.id } })
-  // 네임드 라우트가 아직 없다면 경로로 이동
   router.push(`/supports/${props.item.id}`)
 }
 </script>
@@ -28,7 +24,6 @@ const goDetail = () => {
       class="w-[380px] h-[190px] bg-white rounded-2xl p-3 ring-1 ring-gray-100 shadow-[0_8px_24px_rgba(0,0,0,.06)] mx-auto mt-4"
     >
       <div class="flex items-center gap-4 h-full">
-        <!-- 👉 여기 클릭 시 상세 이동 -->
         <div
           class="shrink-0 w-[120px] h-[160px] rounded-xl overflow-hidden rounded-lg border-2 border-[#DFDFDF] cursor-pointer"
           @click="goDetail"

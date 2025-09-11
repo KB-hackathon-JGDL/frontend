@@ -9,7 +9,6 @@ const emit = defineEmits<{
   (e: 'end'): void
 }>()
 
-// 아바타 에러 → 아이콘으로 폴백
 const avatarError = ref(false)
 const showAvatar = computed(() => !!props.config.botAvatar && !avatarError.value)
 function onAvatarError(_e: Event) {
@@ -31,9 +30,7 @@ function onAvatarError(_e: Event) {
           </svg>
         </button>
 
-        <!-- ✅ 아바타 영역 (크기 그대로: w-24 h-24) -->
         <div class="relative w-24 h-24">
-          <!-- 1) 프로필 사진이 있으면 이미지 표시 -->
           <img
             v-if="showAvatar"
             :src="props.config.botAvatar"
@@ -41,7 +38,6 @@ function onAvatarError(_e: Event) {
             class="absolute inset-0 w-full h-full rounded-full object-cover ring-2 ring-white/70"
             @error="onAvatarError"
           />
-          <!-- ⚠️ v-if 바로 다음 형제에 v-else (사이에 텍스트/주석 X) -->
           <template v-else>
             <Circle class="absolute inset-0 w-full h-full text-white" :stroke-width="1" />
             <Bot class="absolute inset-0 m-auto text-white" :size="33" :stroke-width="2" />

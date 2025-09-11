@@ -1,19 +1,17 @@
-// src/mocks/mentors.ts
-
 export interface Mentor {
   id: string
   name: string
   photoUrl: string
 
-  /** 카드에 그대로 뿌릴 텍스트들 */
-  category: string            // ex) '대출/금융 상담'
-  tagsText: string            // ex) '# 상냥한 # 유머있는'
-  orgText: string             // ex) '여의도 펀드회사 근무'
-  certText: string            // ex) '투자자산운용사, 신용분석사 보유'
-  headlineText: string        // ex) '“복잡한 은행업무, 대출 관련 상담 환영해요”'
+
+  category: string  
+  tagsText: string       
+  orgText: string             
+  certText: string        
+  headlineText: string       
 }
 
-export type Availability = Record<string, string[]>  // 'YYYY-MM-DD' -> ['10:00','10:30',...]
+export type Availability = Record<string, string[]>  
 
 export const mentors: Mentor[] = [
   {
@@ -48,7 +46,6 @@ export const mentors: Mentor[] = [
   },
 ]
 
-// 상담가별 가능 시간 (예시)
 export const availability: Record<string, Availability> = {
   'M-01': {
     '2025-09-08': ['10:00', '11:00', '13:00', '14:00', '18:00'],

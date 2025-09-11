@@ -56,7 +56,6 @@ const askApi = async (prompt: string) => {
     if (!res.ok) throw new Error(String(res.status))
     const data = await res.json()
 
-    // 응답 키 방어적으로 읽기
     const text =
       data?.reply ??
       data?.answer ??

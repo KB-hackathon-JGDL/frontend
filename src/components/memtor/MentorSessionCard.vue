@@ -28,10 +28,9 @@ const dateLabel = computed(() => {
   return `${d.getMonth() + 1}월 ${d.getDate()}일 ${d.getHours()}시`
 })
 
-// 액션
 function goChat(e?: MouseEvent) {
   e?.stopPropagation()
-  router.push({ name: 'mentee-chat', params: { sessionId: props.session.id } }) // 필요시 mentor-chat로 변경
+  router.push({ name: 'mentee-chat', params: { sessionId: props.session.id } }) 
 }
 function openCard(e?: MouseEvent) {
   e?.stopPropagation()
@@ -41,7 +40,6 @@ function openCard(e?: MouseEvent) {
 
 <template>
   <div class="space-y-3">
-    <!-- 카드 본문: 클릭하면 펼침 -->
     <div
       @click="emit('toggle', session.id)"
       role="button"
@@ -71,7 +69,6 @@ function openCard(e?: MouseEvent) {
       </div>
     </div>
 
-    <!-- 하단 액션바: 펼친 경우에만 -->
     <div v-if="showActions && expanded" class="px-8 md:px-10 mt-2">
       <div class="flex gap-3">
         <button

@@ -23,12 +23,12 @@ const detailThumbnail = computed(() => {
 
 <template>
   <div class="min-h-dvh bg-[#ffffff]">
-    <header class="h-[88px] bg-[#4A79F6] text-white px-5 pt-7">
+    <header class="h-[88px] bg-[#578FFD] text-white px-5 pt-7">
       <div class="flex items-center gap-2">
         <button class="w-12 h-12 rounded-full mt-4 bg-white/20 grid place-items-center" @click="router.back()">
           <ChevronLeft :size="18" />
         </button>
-        <h1 class="text-[18px] font-semibold mt-4 ml-5">지원사업</h1>
+        <h1 class="text-[23px] font-semibold mt-4 ml-5">지원사업</h1>
       </div>
     </header>
 
@@ -45,22 +45,18 @@ const detailThumbnail = computed(() => {
             Detail
           </h3>
 
-          <!-- 얇은 바 + 파란 진행바 (430px 바닥) -->
           <div class="relative -ml-4 w-[430px] h-[3px]">
             <div class="absolute inset-0 bg-[#E1E1E1] rounded-full"></div>
             <div class="absolute inset-y-0 left-0 w-[215px] bg-[#4A79F6] rounded-full z-10"></div>
           </div>
 
-          <!-- 내용 래퍼 -->
           <div class="mt-5">
             <section class="px-5 py-4">
-              <!-- 기관 -->
               <div class="flex items-start gap-2 text-gray-700">
                 <Ticket class="w-8 h-8 mt-[2px] text-gray-700 shrink-0" />
                 <span>아름다운재단 · 청년지갑트레이닝센터</span>
               </div>
 
-              <!-- 지역 | 기간 -->
               <div class="mt-2 flex items-center text-gray-700 divide-x divide-gray-700">
                 <div class="flex items-center gap-2 pr-3">
                   <MapPin class="w-8 h-8 mt-[2px] text-gray-700 shrink-0" />
@@ -72,13 +68,11 @@ const detailThumbnail = computed(() => {
                 </div>
               </div>
 
-              <!-- 대상 -->
               <div class="mt-2 flex items-start gap-2 text-gray-700">
                 <User class="w-8 h-8 mt-[2px] text-gray-700 shrink-0" />
                 <span class="mt-1">아동양육시설 및 가정위탁 보호 종료 만18세~34세 자립준비청년</span>
               </div>
 
-              <!-- 지원내용 -->
               <div class="mt-5">
                 <h4 class="text-[15px] font-semibold text-gray-800 mb-1 mt-5">지원내용</h4>
                 <ul class="list-disc pl-5 text-gray-700 space-y-1 ml-10">
@@ -88,7 +82,6 @@ const detailThumbnail = computed(() => {
                 </ul>
               </div>
 
-              <!-- 신청서류 -->
               <div class="mt-4">
                 <h4 class="text-[15px] font-semibold text-gray-800 mb-1 mt-5">신청서류</h4>
                 <ul class="list-disc pl-5 text-gray-700 space-y-1 ml-10">
@@ -98,7 +91,6 @@ const detailThumbnail = computed(() => {
                 </ul>
               </div>
 
-              <!-- 신청방법 -->
               <div class="mt-4">
                 <h4 class="text-[15px] font-semibold text-gray-800 mb-1 mt-5">신청방법</h4>
                 <p class="text-gray-700 ml-10">
@@ -107,7 +99,6 @@ const detailThumbnail = computed(() => {
               </div>
             </section>
 
-            <!-- 버튼 -->
             <div class="mt-10 flex justify-center gap-12 px-5 pb-5">
               <button
                 class="px-4 py-2 rounded-[12px] bg-white text-[15px] h-[50px] w-[130px] border-[2px] border-[#7BA7FD]"
@@ -121,11 +112,8 @@ const detailThumbnail = computed(() => {
             </div>
           </div>
         </section>
-        <!-- ✅ 섹션 종료 -->
       </div>
-      <!-- v-if 종료 -->
 
-      <!-- ✅ v-else는 v-if 바로 다음 형제여야 함 -->
       <div v-else class="text-center text-gray-500 py-20">
         항목을 찾을 수 없습니다.
       </div>

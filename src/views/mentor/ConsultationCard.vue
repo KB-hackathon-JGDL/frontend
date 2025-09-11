@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ChevronLeft } from 'lucide-vue-next'
-import ReservaModal from '@/components/modal/ReservaModal.vue' // 모달 컴포넌트 임포트
+import ReservaModal from '@/components/modal/ReservaModal.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -18,32 +18,26 @@ const selectedTime = ref<string>('')
 const note = ref('')
 const agree = ref(false)
 
-/** 예약 확인 모달 제어 */
 const showReserva = ref(false)
 function openReserva()  { showReserva.value = true }
 function closeReserva() { showReserva.value = false }
 
-/** 버튼 클릭: 확인 모달만 띄움 */
 function onClickNext() {
   openReserva()
 }
 
-/** 확인 버튼: 여기서 실제 예약 로직 수행 후 모달 닫기 */
+
 async function onConfirmReserva() {
-  // TODO: 예약 API 호출/검증
-  // await api.reserve({ note: note.value, ... })
   closeReserva()
-  // 필요하면 여기서 라우팅/토스트 등 처리
-  // router.push('/something') or showToast('예약 완료')
 }
 </script>
 
 <template>
   <div class="min-h-dvh bg-[#F4F6FE]">
-    <header class="sticky top-0 z-10 h-[85px] bg-[#4A79F6] text-white">
+    <header class="sticky top-0 z-10 h-[85px] bg-[#578FFD] text-white">
       <div class="h-[64px] flex items-center gap-2 px-5 pt-8">
         <button @click="router.back()"><ChevronLeft class="w-8 h-8" /></button>
-        <h1 class="text-[20px] font-semibold">상담</h1>
+        <h1 class="text-[23px] font-semibold">상담</h1>
       </div>
     </header>
 
@@ -92,7 +86,6 @@ async function onConfirmReserva() {
     </div>
   </div>
 
-  <!-- 모달은 '임포트한 컴포넌트'만 사용 -->
   <ReservaModal :show="showReserva" @close="closeReserva">
     <template #actions>
     </template>

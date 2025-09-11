@@ -21,7 +21,6 @@ const dateLabel = computed(() => {
 
 <template>
   <div class="space-y-3">
-    <!-- 카드 본문: 클릭하면 펼침 -->
     <div
       @click="emit('toggle', session.id)"
       role="button"
@@ -51,7 +50,6 @@ const dateLabel = computed(() => {
       </div>
     </div>
 
-    <!-- 🔵 펼친 경우에만 버튼 두 개 노출 (네가 쓰던 크기/색/문구 그대로) -->
     <div v-if="showActions && expanded" class="px-8 md:px-10 mt-2">
       <div class="flex gap-3">
         <button

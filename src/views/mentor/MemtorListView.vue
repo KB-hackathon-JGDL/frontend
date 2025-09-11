@@ -11,7 +11,7 @@ onMounted(() => store.loadMock())
     <div class="sticky top-0 z-10 bg-[#4A79F6] h-[85px] w-full"></div>
   <main class="mx-auto w-full max-w-[430px] px-4 py-5">
     <section class="rounded-2xl bg-white shadow ring-1 ring-[#E6EAF5] overflow-hidden">
-    <header class="px-5 py-1">
+    <header class="px-5 py-1 bg-[#578FFD]">
         <p class="mt-10 text-[20px] font-semibold text-gray-800">
         나에게 알맞은 상담사를 찾아보세요.
         </p>

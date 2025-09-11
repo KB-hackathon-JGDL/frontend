@@ -3,7 +3,6 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ChevronLeft } from 'lucide-vue-next'
 
-/** 시간 슬롯 생성: 10:00 ~ 21:00 (1시간 간격) */
 function generateSlots(start = 10, end = 21) {
   const slots: string[] = []
   for (let h = start; h <= end; h++) {
@@ -12,10 +11,9 @@ function generateSlots(start = 10, end = 21) {
   return slots
 }
 
-type Availability = Record<string, string[]> // 날짜 ISO -> 시간배열
+type Availability = Record<string, string[]> 
 type MentorAvailability = Record<string, Availability>
 
-// ✅ 멘토별 목데이터: 모든 날짜 동일하게 10~21시
 const AVAIL: MentorAvailability = {
   'M-01': {
     '2025-03-08': generateSlots(10, 21),
@@ -39,7 +37,6 @@ const mentorId = computed(() => String(route.params.id || 'M-01'))
 const canGoNext = computed(() => !!(selectedDate.value && selectedTime.value))
 const availability = computed<Availability>(() => AVAIL[mentorId.value] || {})
 
-// 날짜/요일 라벨
 const WEEK = ['일', '월', '화', '수', '목', '금', '토']
 function label(dateISO: string) {
   const d = new Date(`${dateISO}T00:00:00`)
@@ -49,20 +46,18 @@ function label(dateISO: string) {
   }
 }
 
-// 초기 선택: 첫 번째 날짜
 const dateKeys = computed(() =>
   Object.keys(availability.value).sort((a, b) => a.localeCompare(b))
 )
 const selectedDate = ref<string>(dateKeys.value[0] || '')
 const selectedTime = ref<string>('')
 
-// 메모/동의
 const note = ref('')
 const agree = ref(false)
 
 function pickDate(d: string) {
   selectedDate.value = d
-  selectedTime.value = '' // 날짜 바꾸면 시간 초기화
+  selectedTime.value = ''
 }
 function pickTime(t: string) {
   selectedTime.value = t
@@ -88,13 +83,12 @@ function goConsultationCard() {
 
 <template>
   <div class="min-h-dvh bg-[#F4F6FE]">
-    <!-- 헤더 -->
-    <header class="sticky top-0 z-10 h-[85px] bg-[#4A79F6] text-white">
+    <header class="sticky top-0 z-10 h-[85px] bg-[#578FFD] text-white">
       <div class="h-[64px] flex items-center gap-2 px-5 pt-8">
         <button @click="router.back()">
           <ChevronLeft class="w-8 h-8" />
         </button>
-        <h1 class="text-[18px] font-semibold">상담</h1>
+        <h1 class="text-[23px] font-semibold">상담</h1>
       </div>
     </header>
 
@@ -102,13 +96,11 @@ function goConsultationCard() {
       <section
         class="bg-white min-h-[830px] border border-[#E6EAF5] rounded-3xl shadow-sm overflow-hidden"
       >
-        <!-- 타이틀 -->
         <div
           class="px-5 py-6 border-b border-[#E6EAF5] flex items-center gap-5"
         >
           <h2 class="text-[20px] font-semibold">채팅상담 예약</h2>
 
-          <!-- 툴팁 아이콘 -->
           <div class="relative inline-block group">
             <button
               type="button"
@@ -120,7 +112,6 @@ function goConsultationCard() {
             >
               ?
             </button>
-            <!-- 툴팁 -->
             <div
               class="absolute left-1/2 -translate-x-1/2 mt-2 hidden
                      group-hover:block group-focus-within:block z-20"
@@ -139,9 +130,7 @@ function goConsultationCard() {
           </div>
         </div>
 
-        <!-- 날짜 + 시간 -->
         <div class="px-5 py-4 space-y-8">
-          <!-- 날짜 선택 -->
           <div>
             <p class="text-[18px] font-semibold">날짜 선택</p>
             <div class="mt-5 grid grid-cols-7 gap-3">
@@ -168,7 +157,6 @@ function goConsultationCard() {
             </div>
           </div>
 
-          <!-- 시간 선택 -->
           <div>
             <p class="text-[18px] font-semibold">시간 선택</p>
             <div class="mt-5 grid grid-cols-4 gap-5 pb-8">
@@ -195,8 +183,6 @@ function goConsultationCard() {
             </div>
           </div>
 
-          <!-- 다음 버튼 -->
-<!-- 버튼 영역 -->
 <div class="flex justify-end px-[20px] mt-8">
   <button
     class="h-20 px-14 rounded-xl bg-[#FFBD01] text-white text-[15px] font-semibold hover:brightness-95 disabled:opacity-40"

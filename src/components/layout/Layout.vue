@@ -23,8 +23,6 @@ const handleRightClick = () => {
 
 <template>
   <div class="relative w-screen min-h-screen bg-Gray-0">
-    <!-- 메인 콘텐츠 -->
-  
       <slot name="content">
         <div class="w-full h-full p-4 text-center text-Gray-5">
           페이지 콘텐츠를 추가해주세요

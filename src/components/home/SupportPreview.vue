@@ -14,7 +14,7 @@ const router = useRouter()
         전체보기
       </button>
     </div>
-    <div class="flex gap-3 flex-row-reverse">
+    <div class="flex gap-3 flex-row">
      <SupportCard v-for="it in items" :key="it.id" :item="it" />
     </div>
   </section>

@@ -79,6 +79,11 @@ const routes = [
   name: 'Login',
   component: () => import('@/views/auth/LoginView.vue'),
 },
+  {
+    path: '/mentor/:id/schedule',
+    name: 'mentor-schedule',
+    component: () => import('@/views/mentor/MentorScheduleView.vue'),
+  },
 
 ]
 

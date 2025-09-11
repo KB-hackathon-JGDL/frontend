@@ -22,7 +22,7 @@ const headline = (props.mentor as any).headlineText ?? ''
       <p class="text-[17px] font-semibold truncate">{{ mentor.name }}</p>
 <span
   class="ml-auto w-[150px] h-[26px] flex items-center justify-center rounded-full
-         text-[13px] font-normal border border-[#427EF6]
+         text-[13px] font-normal border border-[#578FFD]
          text-[#3A3A3A] bg-[#ffffff] whitespace-nowrap">
   {{ tagsText }}
 </span>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const model = defineModel<'upcoming' | 'completed'>({ required: true })
+const model = defineModel<'upcoming' | 'completed'>({ required: true });
 </script>
 
 <template>
@@ -9,13 +9,13 @@ const model = defineModel<'upcoming' | 'completed'>({ required: true })
         @click="model = 'upcoming'"
         :class="[
           'flex-1 relative grid place-items-center text-[16px] font-semibold',
-          model === 'upcoming' ? 'text-blue-600' : 'text-gray-700'
+          model === 'upcoming' ? 'text-blue-600' : 'text-gray-700',
         ]"
       >
         예약된 채팅
         <span
           v-if="model === 'upcoming'"
-          class="absolute left-0 right-0 bottom-0 h-[3px] bg-blue-500"
+          class="absolute left-0 right-0 bottom-0 h-[3px] bg-[#578FFD]"
         />
       </button>
 
@@ -23,13 +23,13 @@ const model = defineModel<'upcoming' | 'completed'>({ required: true })
         @click="model = 'completed'"
         :class="[
           'flex-1 relative grid place-items-center text-[16px] font-semibold',
-          model === 'completed' ? 'text-blue-600' : 'text-gray-700'
+          model === 'completed' ? 'text-blue-600' : 'text-gray-700',
         ]"
       >
         종료된 채팅
         <span
           v-if="model === 'completed'"
-          class="absolute left-0 right-0 bottom-0 h-[3px] bg-blue-500"
+          class="absolute left-0 right-0 bottom-0 h-[3px] bg-[#578FFD]"
         />
       </button>
     </div>

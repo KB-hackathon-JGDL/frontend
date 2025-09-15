@@ -1,15 +1,14 @@
 # 동행
 
 <p align="center">
-  <img src="@/assets/logo/logo.png" alt="logo" width="180"/>
+  <img src="@/assets/images/logo/logo.png" alt="logo" width="180"/>
 </p>
 
 <p align="center">
   <strong>자립준비청년의 만족도 높은 삶을 추구하다</strong><br/>
-  KB IT's your life 해커톤
+  KB IT's your life 해커톤 장려상 수상
 </p>
 
----
 
 ## 📌 서비스 소개
 
@@ -20,7 +19,6 @@
 - 멘토링 기능으로 정서적 도움을 받을 수 있습니다
 - AI 챗봇 기능으로 어려운 단어를 물어 볼 수 있습니다
 
----
 
 ## 🛠️ 사용 기술 스택
 - **Frontend**: Vue.js TailwindCSS  

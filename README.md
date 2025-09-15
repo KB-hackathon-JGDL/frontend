@@ -1,8 +1,9 @@
 # 동행
 
 <p align="center">
-  <img src="@/assets/images/logo/logo.png" alt="logo" width="180"/>
+  <img src="./src/assets/images/logo/logo.png" alt="logo" width="180"/>
 </p>
+
 
 <p align="center">
   <strong>자립준비청년의 만족도 높은 삶을 추구하다</strong><br/>

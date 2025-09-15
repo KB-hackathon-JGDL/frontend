@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+function goToCompleted() {
+  router.push('/reservations')
+}
+
 const props = defineProps<{ open: boolean }>()
 const emit = defineEmits<{ close: []; confirm: [] }>()
 </script>
@@ -22,12 +29,15 @@ const emit = defineEmits<{ close: []; confirm: [] }>()
           >
             채팅으로 돌아가기
           </button>
-          <button
-            class="w-[120px] h-16 rounded-xl bg-[#4A79F6] text-white hover:opacity-90"
-            @click="emit('confirm')"
-          >
-            종료하기
-          </button>
+<RouterLink
+  :to="{ path: '/reservations', query: { tab: 'completed' } }"
+  class="w-[120px] h-16 rounded-xl bg-[#4A79F6] text-white hover:opacity-90 flex items-center justify-center"
+>
+  종료하기
+</RouterLink>
+
+
+
         </div>
       </div>
     </div>

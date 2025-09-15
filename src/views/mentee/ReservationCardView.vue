@@ -3,6 +3,7 @@
 import { useRouter } from 'vue-router'
 import { reservationCardMock } from '@/mocks/reservationCard'
 import { ChevronLeft } from 'lucide-vue-next'
+import BottomNav from '@/components/common/BottomNav.vue'
 
 const router = useRouter()
 const goBack = () => router.back()
@@ -52,16 +53,8 @@ const card = reservationCardMock
           </p>
           </div>
         </section>
-
-        <!-- 버튼 -->
-        <div class="flex justify-center">
-          <button
-            class="w-[120px] h-[50px] px-6 mt-16 ml-[200px] rounded-xl bg-[#4A79F6] text-white text-[15px] font-semibold shadow-md"
-          >
-            상담 시작하기
-          </button>
-        </div>
       </main>
     </div>
-  </div>
+    </div>
+    <BottomNav />
 </template>

@@ -1,13 +1,13 @@
 // src/mocks/reservationsMock.ts
 import type { MentoringReservationDTO } from '@/types/mentoring'
+import mentee1 from '@/assets/images/mentee/hyejung.png'
 
 const reservationsMock: MentoringReservationDTO[] = [
   {
     mentoringReservationId: 'R-001',
     mentorUserId: 'M-01',
-    name: '박은빈 (19세)',
-    photoUrl:
-      'https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=800&auto=format&fit=crop', // ✅ 예쁜 프로필 이미지
+    name: '황혜정 (19세)',
+    photoUrl: mentee1,
     mentoringDate: '2025-09-20',
     mentoringTime: 11,
     chatStatus: 'PENDING',

@@ -15,6 +15,7 @@ import imgYolo from '@/assets/images/persona/yolo.png'
 
 const store = useSurveyStore()
 const router = useRouter()
+const recProducts = computed(() => store.recommendedProducts)
 
 onMounted(() => {
   if (!store.persona) store.derivePersona()

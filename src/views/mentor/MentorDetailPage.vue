@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ChevronLeft } from 'lucide-vue-next';
+import mentor1 from '@/assets/images/mentor/bicbangbang.png'
 
 
 type Mentor = {
@@ -19,9 +20,7 @@ const MOCK: Record<string, Mentor> = {
   'M-01': {
     id: 'M-01',
     name: '김병로 상담사',
-    photoUrl:
-      'https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=1200&auto=format&fit=crop',
-    tags: '# 상냥함  # 유익있는',
+    photoUrl: mentor1,
     field: '금융 / 투자',
     career: 'KB은행 근무\n경력 코치/직무 멘토링 수료',
     cert: '(2025) KB웨alth마스터스 근무\n자격: 투자자산운용사, 신용분석사',

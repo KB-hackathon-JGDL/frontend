@@ -68,12 +68,16 @@ const messageList = computed<ChatMessage[]>(() => {
 
 const config = computed<ChatConfig>(() => ({
   title: peerName.value,
-  placeholder: currentRole.value === 'mentee' ? '멘티로 작성…' : '멘토로 작성…',
+  placeholder: '메세지를 입력하세요',
   apiEndpoint: '/api/chat',
   theme: 'blue',
   botName: peerName.value,
   botAvatar: peerAvatar.value,
 }))
+
+const model = ref<'upcoming' | 'completed'>(
+  (route.query.tab as 'upcoming' | 'completed') ?? 'upcoming'
+)
 
 function onSend(text: string) {
   if (readonly.value) return
@@ -93,12 +97,14 @@ function confirmEnd() {
   const s = session.value
   if (!s || s.status === 'completed') return
 
+  // 상태 변경 및 종료 메시지 추가
   sessionStore.completeSession?.(s.id)
   chatStore.addSystem?.(sid, '상담이 종료되었습니다. 채팅방은 읽기 전용으로 전환됩니다.')
 
   showEndModal.value = false
 
-  router.push({ name: 'ReviewKeywordsView', params: { mentorId: s.mentor?.id ?? 'M-01' } })
+  // ✅ 종료된 채팅 탭으로 이동
+  router.push({ path: '/reservations', query: { tab: 'completed' } })
 }
 
 function formatDateLabel(ts: string) {
@@ -106,6 +112,8 @@ function formatDateLabel(ts: string) {
   const w = ['일','월','화','수','목','금','토'][d.getDay()]
   return `${d.getMonth()+1}월 ${d.getDate()}일 ${w}요일`
 }
+
+
 
 type MixedItem =
   | { type: 'date'; id: string; label: string }

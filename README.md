@@ -35,7 +35,7 @@ AI 챗봇 서비스로 어렵고 모르는 금융 단어를 쉽게 물어볼 수
 
 ## 🛠️ 사용 기술 스택
 - **Frontend**: Vue.js TailwindCSS  
-- **Backend**: Spring Boot MyBatis  
+- **Backend**: Spring Boot JPA  
 - **Database**: MySQL  
 - **협업도구**: GitHub Notion  
 
